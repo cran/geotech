@@ -1,0 +1,8 @@
+##  Export all names
+exportPattern(".")
+
+##  Import functions
+importFrom("graphics", "abline", "arrows", "axis", "box", "legend",
+           "lines", "mtext", "par", "plot", "points", "segments",
+           "text")
+importFrom("stats", "approx", "lm")
