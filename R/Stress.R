@@ -1,27 +1,31 @@
-##  STRESS
-##  Kyle Elmy and Jim Kaklamanos
-##  1 October 2015
-
-
-########################################################################################
-##  1. VERTICAL STRESS AT A POINT
-##
-##  Output:  A three-element list containing:
-##           sigmaZ.eff = effective vertical stress
-##           sigmaZ.total = total vertical stress
-##           u = pore water pressure
-##
-##  Input:   gamma = vector of unit weights (pcf or kN/m^3)
-##           thk = vector of layer thicknesses (ft or m)
-##           depth = vector of layer bottom depths (ft or m)
-##           zw = depth of groundwater table (ft or m)
-##           zout = desired depth of output (ft or m): a single value
-##           gammaW = unit weight of water (default = 62.4 pcf for English units;
-##                                                   9.81 kN/m^3 for metric units)
-##           metric = logical variable: TRUE (for metric units) or FALSE (for English units)
-##
-##  Note:    Either layer thicknesses or depths to layer bottoms must be specified.
-
+#' Vertical Stress at a Point
+#' 
+#' Computes the vertical stress at a point. 1 October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' @return A three-element list containing: sigmaZ.eff = effective vertical
+#'     stress, sigmaZ.total = total vertical stress, and u = pore water pressure
+#' 
+#' @param gamma = vector of unit weights (pcf or kN/m^3)
+#' @param thk = vector of layer thicknesses (ft or m)
+#' @param depth = vector of layer bottom depths (ft or m)
+#' @param zw = depth of groundwater table (ft or m)
+#' @param zout = desired depth of output (ft or m): a single value
+#' @param gammaW = unit weight of water (default = 62.4 pcf for English units;
+#'     9.81 kN/m^3 for metric units)
+#' @param metric = logical variable: TRUE (for metric units) or FALSE (for
+#'     English units)
+#' @examples
+#' sigmaZ(gamma = c(108, 116), depth = c(15, 40), zout = 18, zw = 15, metric =
+#' FALSE)
+#' @note
+#' Either layer thicknesses or depths to layer bottoms must be specified.
+#' @export
 sigmaZ <- function(gamma, thk = NA, depth = NA, zw, zout, gammaW = NA, metric){
 
   ##  Calculate layer thicknesses, if not provided
@@ -79,32 +83,42 @@ sigmaZ <- function(gamma, thk = NA, depth = NA, zw, zout, gammaW = NA, metric){
   return(list(sigmaZ.eff = sigmaZ.eff, sigmaZ.total = sigmaZ.total, u = u))
 }
 
-##  EXAMPLE:
-##  sigmaZ(gamma = c(108, 116), depth = c(15, 40), zout = 18, zw = 15, metric = FALSE)
 
 
 
 
-########################################################################################
-##  2. VERTICAL STRESS PROFILE
-##
-##  Output:  A four-element list containing four vectors:
-##           depth = depth
-##           sigmaZ.eff = effective vertical stress
-##           sigmaZ.total = total vertical stress
-##           u = pore water pressure
-##
-##  Input:   gamma = vector of unit weights (pcf or kN/m^3)
-##           thk = vector of layer thicknesses (ft or m)
-##           depth = vector of layer bottom depths (ft or m)
-##           zw = depth of groundwater table (ft or m)
-##           zout = desired depths of output (ft or m): defaults to critical locations in
-##                  the profile (the top and bottom of the profile, layer interfaces, and the
-##                  groundwater table)  [recommended]
-##           gammaW = unit weight of water (default = 62.4 pcf for English units;
-##                                                   9.81 kN/m^3 for metric units)
-##           metric = logical variable: TRUE (for metric units) or FALSE (for English units)
 
+#' Vertical Stress Profile
+#' 
+#' Computes the vertical stress profile. 1 October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' @return A four-element list containing four vectors: depth = depth,
+#'    sigmaZ.eff = effective vertical stress, sigmaZ.total = total vertical
+#'    stress, and u = pore water pressure
+#' 
+#' @param gamma = vector of unit weights (pcf or kN/m^3)
+#' @param thk = vector of layer thicknesses (ft or m)
+#' @param depth = vector of layer bottom depths (ft or m)
+#' @param zw = depth of groundwater table (ft or m)
+#' @param zout = desired depths of output (ft or m): defaults to critical
+#'    locations in the profile (the top and bottom of the profile, layer
+#'    interfaces, and the groundwater table)  [recommended]
+#' @param gammaW = unit weight of water (default = 62.4 pcf for English units;
+#'    9.81 kN/m^3 for metric units)
+#' @param metric = logical variable: TRUE (for metric units) or FALSE (for
+#'    English units)
+#' 
+#' @examples
+#' sigmaZ.profile(gamma = c(108, 116), depth = c(15, 40), zw = 15, metric =
+#' FALSE)
+#' 
+#' @export
 sigmaZ.profile <- function(gamma, thk = NA, depth = NA, zw, zout = NA, gammaW = NA, metric){
   
   ##  Determine critical depths
@@ -130,27 +144,46 @@ sigmaZ.profile <- function(gamma, thk = NA, depth = NA, zw, zout = NA, gammaW = 
   return(list(depth = zout, sigmaZ.eff = sigmaZ.eff, sigmaZ.total = sigmaZ.total, u = u))
 }
 
-##  EXAMPLE:
-##  sigmaZ.profile(gamma = c(108, 116), depth = c(15, 40), zw = 15, metric = FALSE)
 
 
 
 
-########################################################################################
-##  3. VERTICAL STRESS PLOT
-##
-##  Output:  Plot of vertical stress versus depth
-##
-##  Input:   depth = vector of depths (ft or m)
-##           sigmaZ.eff = vector of effective stresses (psf or kPa)
-##           sigmaZ.total = vector of total stresses (psf or kPa)
-##           u = vector of pore water pressures (psf or kPa)
-##           metric = logical variable: TRUE (for metric units) or FALSE (for English units)
-##
-##  Notes:   o  If sigmaZ.total and u are left blank, the plot is only constructed for effective stress
-##           o  Once constructed, additional profiles may be added to this plot
-##              (for example, for induced stress or maximum past pressure)
 
+#' Vertical Stress Plot
+#' 
+#' Draws the vertical stress plot. 1 October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' @return Plot of vertical stress versus depth
+#' @param depth = vector of depths (ft or m)
+#' @param sigmaZ.eff = vector of effective stresses (psf or kPa)
+#' @param sigmaZ.total = vector of total stresses (psf or kPa)
+#' @param u = vector of pore water pressures (psf or kPa)
+#' @param metric = logical variable: TRUE (for metric units) or FALSE (for
+#'    English units)
+#' @note
+#' If sigmaZ.total and u are left blank, the plot is only constructed for
+#' effective stress
+#' Once constructed, additional profiles may be added to this plot
+#' (for example, for induced stress or maximum past pressure)
+#' 
+#' @examples
+#' # Site with constant unit weight = 100 pcf, GWT at 10 ft depth
+#' temp <- sigmaZ.profile(gamma = rep(100, 3), depth = c(10, 20, 30), zw = 10,
+#' metric = FALSE)
+#' depth <- temp$depth
+#' sigmaTotal <- temp$sigmaZ.total
+#' u <- temp$u
+#' sigmaEff <- temp$sigmaZ.eff
+#' sigmaZ.plot(depth = depth, sigmaZ.eff = sigmaEff,
+#' metric = FALSE, sigmaZ.total = sigmaTotal, u = u)
+#' 
+#' @export
 sigmaZ.plot <- function(depth, sigmaZ.eff, sigmaZ.total = NA, u = NA, metric){
   
   ##  Expression for axes
@@ -172,6 +205,8 @@ sigmaZ.plot <- function(depth, sigmaZ.eff, sigmaZ.total = NA, u = NA, metric){
   }
   
   ##  Plot
+  oldpar <- par(no.readonly = TRUE) # code line i
+  on.exit(par(oldpar)) # code line i + 1
   par(mgp = c(2.8, 1, 0), las = 1)
   plot(sigmaZ.eff, depth, type = "l", yaxs = "i", xaxt = "n", col = "black", lwd = 2,
        xlim = c(0, xMax), ylim = c(max(depth), 0),
@@ -205,37 +240,36 @@ sigmaZ.plot <- function(depth, sigmaZ.eff, sigmaZ.total = NA, u = NA, metric){
 }
 
 
-##  EXAMPLE:
-##  Site with constant unit weight = 100 pcf, GWT at 10 ft depth
-##  temp <- sigmaZ.profile(gamma = rep(100, 3), depth = c(10, 20, 30), zw = 10, metric = FALSE)
-##  depth <- temp$depth
-##  sigmaTotal <- temp$sigmaZ.total
-##  u <- temp$u
-##  sigmaEff <- temp$sigmaZ.eff
-##  sigmaZ.plot(depth = depth, sigmaZ.eff = sigmaEff,
-##              metric = FALSE, sigmaZ.total = sigmaTotal, u = u)
 
 
 
 
-########################################################################################
-##  4. INDUCED STRESS DUE TO POINT LOAD
-##
-##  Output:  A six-element list containing the induced stresses due to a point load
-##           following the Boussinesq method:
-##           o  sigmaX = induced horizontal stress in the x direction
-##           o  sigmaY = induced horizontal stress in the y direction
-##           o  sigmaZ = induced vertical stress
-##           o  tauZX = induced shear stress on the ZX plane
-##           o  tauYX = induced shear stress on the YX plane
-##           o  tauYZ = induced shear stress on the YZ plane
-##
-##  Input:   P = point load
-##           x = horizontal distance from load in the X direction
-##           y = horizontal distance from load in the Y direction
-##           z = depth of interest
-##           nu = Poisson's ratio
 
+
+#' Induced Stress Due to Point Load
+#' 
+#' Computes the induced stress due to point load. 1 October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' @return A six-element list containing the induced stresses due to a point
+#'    load following the Boussinesq method: sigmaX = induced horizontal stress in
+#'    the x direction, sigmaY = induced horizontal stress in the y direction,
+#'    sigmaZ = induced vertical stress, tauZX = induced shear stress on the ZX
+#'    plane, tauYX = induced shear stress on the YX plane, tauYZ = induced shear
+#'    stress on the YZ plane
+#' 
+#' @examples
+#' induced.point(P = 100000, x = 5, y = 2, z = 6, nu = 0.35)
+#' @param P = point load
+#' @param x = horizontal distance from load in the X direction
+#' @param y = horizontal distance from load in the Y direction
+#' @param z = depth of interest
+#' @param nu = Poisson's ratio
+#' @export
 induced.point <- function(P, x, y, z, nu){
 
   ##  Compute Pythagorean distances
@@ -299,32 +333,39 @@ induced.point <- function(P, x, y, z, nu){
               tauZX = tauZX, tauYX = tauYX, tauYZ = tauYZ))
 }
 
-##  EXAMPLE:
-##  induced.point(P = 100000, x = 5, y = 2, z = 6, nu = 0.35)
 
 
 
 
-########################################################################################
-##  5. INDUCED STRESS DUE TO POINT LOAD: PROFILE
-##
-##  Output:  A seven-element list containing seven vectors displaying the depth variation of
-##           induced stresses due to a point load following the Boussinesq method:
-##           o  depth = vector of depths
-##           o  sigmaX = induced horizontal stress in the x direction
-##           o  sigmaY = induced horizontal stress in the y direction
-##           o  sigmaZ = induced vertical stress
-##           o  tauZX = induced shear stress on the ZX plane
-##           o  tauYX = induced shear stress on the YX plane
-##           o  tauYZ = induced shear stress on the YZ plane
-##
-##  Input:   P = point load
-##           x = horizontal distance from load in the X direction
-##           y = horizontal distance from load in the Y direction
-##           z = vector of depths of interest (default: 1-ft or 1-m increments,
-##               to a maximum depth of 50 ft or 50 m)
-##           nu = Poisson's ratio
 
+
+#' Induced Stress Due to Point Load: Profile
+#' 
+#' Computes the induced stress due to point load: profile. 1
+#' October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' @return A seven-element list containing seven vectors displaying the depth
+#'    variation of induced stresses due to a point load following the Boussinesq
+#'    method: depth = vector of depths, sigmaX = induced horizontal stress in the
+#'    x direction, sigmaY = induced horizontal stress in the y direction, sigmaZ
+#'    = induced vertical stress, tauZX = induced shear stress on the ZX plane,
+#'    tauYX = induced shear stress on the YX plane, tauYZ = induced shear stress
+#'    on the YZ plane
+#' @param P = point load
+#' @param x = horizontal distance from load in the X direction
+#' @param y = horizontal distance from load in the Y direction
+#' @param z = vector of depths of interest (default: 1-ft or 1-m increments,
+#'    to a maximum depth of 50 ft or 50 m)
+#' @param nu = Poisson's ratio
+#' @examples
+#' induced.point.profile(P = 100000, x = 5, y = 2, nu = 0.35)
+#' 
+#' @export
 induced.point.profile <- function(P, x, y, z = NA, nu){
 
   ##  Specify default values for depths
@@ -354,29 +395,38 @@ induced.point.profile <- function(P, x, y, z = NA, nu){
               tauZX = tauZX, tauYX = tauYX, tauYZ = tauYZ))
 }
 
-##  EXAMPLE:
-##  induced.point.profile(P = 100000, x = 5, y = 2, nu = 0.35)
 
 
 
 
 
 
-########################################################################################
-##  6. INDUCED STRESS DUE TO AREA LOAD
-##
-##  Output:  Induced vertical stress at the center of the loaded area
-##
-##  Input:   z = depth of interest
-##           q = applied pressure at ground surface
-##           B = width of loaded area
-##           L = length of loaded area (rectangular foundations only)
-##           shape = shape of loaded area (a string containing
-##                   "circle", "square", "strip", or "rectangle")
-##
-##  Notes:   This function currently uses the approximate method of Poulos and Davis (1974).
-##           More advanced formulations are expected in future versions of this package.
 
+
+#' Induced Stress Due to Area Load
+#' 
+#' Computes the induced stress due to area load. 1 October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' @return Induced vertical stress at the center of the loaded area
+#'
+#' @param z = depth of interest
+#' @param q = applied pressure at ground surface
+#' @param B = width of loaded area
+#' @param L = length of loaded area (rectangular foundations only)
+#' @param shape = shape of loaded area (a string containing "circle", "square"
+#'    , "strip", or "rectangle")
+#'#'
+#' @examples
+#' induced.area(z = 10, q = 1000, B = 3, shape = "square")
+#'
+#' @note
+#' Uses the approximate method.
+#' @export
 induced.area <- function(z, q, B, L = NA, shape){
 
   ##  Check input for shape
@@ -419,30 +469,40 @@ induced.area <- function(z, q, B, L = NA, shape){
   return(I * q)
 }
 
-##  EXAMPLE:
-##  induced.area(z = 10, q = 1000, B = 3, shape = "square")
 
 
 
 
-########################################################################################
-##  7. INDUCED STRESS DUE TO AREA LOAD: PROFILE
-##
-##  Output:  A two-element list:
-##           depth = vector of depths
-##           sigmaZ = vector of induced vertical stresses below center of the loaded area
-##
-##  Input:   z = vector of depths (default: 1-ft or 1-m increments,
-##               to a maximum depth of 50 ft or 50 m)
-##           q = applied pressure at ground surface
-##           B = width of loaded area
-##           L = length of loaded area (rectangular foundations only)
-##           shape = shape of loaded area (a string containing
-##                   "circle", "square", "strip", or "rectangle")
-##
-##  Notes:   This function currently uses the approximate method of Poulos and Davis (1974).
-##           More advanced formulations are expected in future versions of this package.
 
+#' Induced Stress Due to Area Load: Profile
+#' 
+#' Computes the vertical stress at a point. 1 October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' @return A two-element list: depth = vector of depths and sigmaZ = vector of
+#'    induced vertical stresses below center of the loaded area
+#'          
+#'           
+#' 
+#' @param z = vector of depths (default: 1-ft or 1-m increments, to a maximum
+#'    depth of 50 ft or 50 m)               
+#' @param q = applied pressure at ground surface
+#' @param B = width of loaded area
+#' @param L = length of loaded area (rectangular foundations only)
+#' @param shape = shape of loaded area (a string containing "circle", "square",
+#'    "strip", or "rectangle")                
+#' 
+#' @examples
+#' induced.area.profile(q = 1000, B = 3, shape = "square")
+#' 
+#' 
+#' @note
+#' Uses the approximate method.
+#' @export
 induced.area.profile <- function(z = NA, q, B, L = NA, shape){
  
   ##  Specify default values for depths
@@ -459,7 +519,3 @@ induced.area.profile <- function(z = NA, q, B, L = NA, shape){
   ##  Return values
   return(list(depth = z, sigmaZ = sigmaZ))
 }
-
-##  EXAMPLE:
-##  induced.area.profile(q = 1000, B = 3, shape = "square")
-

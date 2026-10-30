@@ -1,62 +1,64 @@
-##  SOIL CLASSIFICATION
-##  Kyle Elmy and Jim Kaklamanos
-##  1 December 2015
-
-
-
-
-########################################################################################
-##  1. AASHTO SOIL CLASSIFICATION
-##
-##  Description:  This set of functions classifies soil using the American Association
-##                of State Highway and Transportation Officials (AASHTO)
-##                Soil Classification System
-
-##------------------------------------------------------------------------------------------
-
-
-##------------------------------------------------------------------------------------------
-##  1a. AASHTO GROUP CLASSIFICATION
-
-##  Description:   Inorganic soil classification using the AASHTO method
-##
-##  Output:   AASHTO group classification
-##
-##  Inputs:   Grain-size parameters:
-##            o  sieve = vector of sieve numbers (according to ASTM D422)
-##                       in grain-size distribution
-##            o  size = vector of grain sizes (in or mm) in distribution
-##            o  percent = vector of percent passing in grain-size distribution
-##            o  metric = logical variable for grain-size distribution:
-##                        TRUE for metric units (mm), FALSE for English units (in);
-##                        only required if "size" is supplied
-##            o  p10, p40, p200 = percent passing #10 sieve, #40 sieve, and #200 sieve
-##
-##            Plasticity parameters:
-##            o  LL = liquid limit (percent)
-##            o  PL = plastic limit (percent)
-##            o  PI = plasticity index (percent)
-##            o  NP = logical variable indicating whether the soil is nonplastic (TRUE or FALSE)
-##
-##  Notes: o  For the grain-size data, one of three following pieces of data must be specified:
-##            1.  Sieve numbers (sieve); and percent passing
-##            2.  Grain sizes (size); and percent passing
-##            3.  p10, p40, p200
-##         o  If sieve data are specified, for sieves larger than the no. 4 sieve,
-##            the user should specify the sieve size in inches 
-##            (e.g., 3/8, 3/4, 1, 1.5, 2, 3, etc.)
-##         o  If sieve or size data are specified, this function assumes that the
-##            no. 10, 40, and 200 sieves have been used.
-##         o  For the plasticity data, one of three following pieces of data must be specified:
-##            1.  LL and PL
-##            2.  LL and PI
-##            3.  NP (if the soil is nonplastic)
-##         o  To obtain the group index using the AASHTO method, use the GI function.
-
+#' AASHTO Soil Classification (AASHTO Group Classification)
+#' 
+#' Classifies soil using the American Association of State Highway and
+#' Transportation Officials (AASHTO) Soil Classification System. Inorganic soil
+#' classification using the AASHTO method. 1 December 2015
+#' 
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' @return AASHTO group classification
+#' 
+#' @param sieve = vector of sieve numbers (according to ASTM D422) in
+#'    grain-size distribution [Grain-size parameter]
+#' @param size = vector of grain sizes (in or mm) in distribution [Grain-size
+#'    parameter]
+#' @param percent = vector of percent passing in grain-size distribution
+#'    [Grain-size parameter]
+#' @param metric = logical variable for grain-size distribution: TRUE for
+#'    metric units (mm), FALSE for English units (in); only required if "size" is
+#'    supplied [Grain-size parameter]                   
+#' @param p10 = percent passing #10 sieve [Grain-size parameter]
+#' @param p40 = percent passing #40 sieve [Grain-size parameter]
+#' @param p200 = percent passing #200 sieve [Grain-size parameter]
+#' @param LL = liquid limit (percent) [Plasticity parameter]
+#' @param PL = plastic limit (percent) [Plasticity parameter]
+#' @param PI = plasticity index (percent) [Plasticity parameter]
+#' @param NP = logical variable indicating whether the soil is nonplastic (TRUE
+#'    or FALSE) [Plasticity parameter]
+#' 
+#' @note
+#' For the grain-size data, one of three following pieces of data must be
+#' specified:
+#' 1.  Sieve numbers (sieve); and percent passing
+#' 2.  Grain sizes (size); and percent passing
+#' 3.  p10, p40, p200
+#' If sieve data are specified, for sieves larger than the no. 4 sieve,
+#' the user should specify the sieve size in inches 
+#' (e.g., 3/8, 3/4, 1, 1.5, 2, 3, etc.)
+#' If sieve or size data are specified, this function assumes that the
+#' no. 10, 40, and 200 sieves have been used.
+#' For the plasticity data, one of three following pieces of data must be
+#' specified:
+#' 1.  LL and PL
+#' 2.  LL and PI
+#' 3.  NP (if the soil is nonplastic)
+#' To obtain the group index using the AASHTO method, use the GI function.
+#' 
+#' @examples
+#' AASHTO(p10 = 51, p40 = 30, p200 = 15, LL = 40, PI = 10)
+#' @export
 AASHTO <- function(sieve = NA, size = NA, percent = NA, metric = NA, p10 = NA, p40 = NA, p200 = NA,
                    LL = NA, PL = NA, PI = NA, NP = NA){
 
-  ##  ------------------------------------------------------------
+
   ##  Plasticity parameters
   
   ##  Calculate PI
@@ -73,7 +75,7 @@ AASHTO <- function(sieve = NA, size = NA, percent = NA, metric = NA, p10 = NA, p
     }
   }
 
-  ##  ------------------------------------------------------------
+
   ##  Grain-size parameters
   
   ##  Obtain grain sizes from sieves, if sieve numbers are provided
@@ -97,7 +99,7 @@ AASHTO <- function(sieve = NA, size = NA, percent = NA, metric = NA, p10 = NA, p
     }
   }
   
-  ##  ------------------------------------------------------------
+
   ##  Coarse-grained soil classification
 
   ##  Stone fragments; gravel and sand
@@ -144,7 +146,7 @@ AASHTO <- function(sieve = NA, size = NA, percent = NA, metric = NA, p10 = NA, p
       }
     }
   
-  ##  ------------------------------------------------------------
+
   ##  Fine-grained soil classification
     
   } else if(p200 > 35){
@@ -175,27 +177,39 @@ AASHTO <- function(sieve = NA, size = NA, percent = NA, metric = NA, p10 = NA, p
   return(class)
 }
   
-##  Example:
-##
-##  AASHTO(p10 = 51, p40 = 30, p200 = 15, LL = 40, PI = 10)
 
 
 
 
-##------------------------------------------------------------------------------------------
-##  1b. AASHTO GROUP INDEX
-##
-##  Description:  Calculate a soil's group index using the AASHTO method
-##
-##  Output:  AASHTO group index (rounded to the nearest integer)
-##
-##  Inputs:  p200 = fines content, i.e. percent passing the #200 sieve (percent)
-##           LL = liquid limit (percent)
-##           PL = plastic limit (percent)
-##           PI = plasticity index (percent)
-##
-##  Notes:   Either PL or PI must be specified
 
+
+#' AASHTO Group Index
+#' 
+#' Calculate a soil's group index using the AASHTO method. 1 December 2015
+#' 
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' @return AASHTO group index (rounded to the nearest integer)
+#'
+#' @param p200 = fines content, i.e. percent passing the #200 sieve (percent)
+#' @param LL = liquid limit (percent)
+#' @param PL = plastic limit (percent)
+#' @param PI = plasticity index (percent)
+#'
+#' @examples
+#' GI(p200 = 48, LL = 45, PI = 21)
+#' 
+#' @note
+#' Either PL or PI must be specified
+#' @export
 GI <- function(p200, LL, PL = NA, PI = NA){
   
   ##  Calculate PI if not provided
@@ -213,35 +227,35 @@ GI <- function(p200, LL, PL = NA, PI = NA){
   return(GI)
 }
 
-##  Example:
-##
-##  GI(F = 48, LL = 45, PI = 21)
 
 
 
 
 
-########################################################################################
-##  2. USCS SOIL CLASSIFICATION
-##
-##  Description:  This set of functions classifies soil using the Unified Soil
-##                Classification System (USCS)
 
-##------------------------------------------------------------------------------------------
-
-
-
-##------------------------------------------------------------------------------------------
-##  2a. USCS FINE-GRAINED SYMBOL
-##
-##  Output:   A soil's fine-grained USCS symbol
-##
-##  Inputs:   LL = Liquid Limit
-##            PL = Plastic Limit
-##            PI = Plasticity Index
-##
-##  Notes:    Either PL or PI must be provided.
-
+#' USCS Soil Classification (USCS Fine-Grained Symbol)
+#' 
+#' Classifies soil using the Unified Soil Classification System (USCS) using
+#' the fine-grained symbol. 1 December 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' @return A soil's fine-grained USCS symbol
+#' 
+#' @param LL = Liquid Limit
+#' @param PL = Plastic Limit
+#' @param PI = Plasticity Index
+#' 
+#' @note Either PL or PI must be provided.
+#' @export
 USCS.fine.symbol <- function(LL, PL = NA, PI = NA){
 
   ##  Calculate PI
@@ -282,26 +296,39 @@ USCS.fine.symbol <- function(LL, PL = NA, PI = NA){
 
 
 
-
-##------------------------------------------------------------------------------------------
-##  2b. USCS COARSE-GRAINED SYMBOL
-##
-##  Output:   A soil's USCS coarse-grained symbol
-##
-##  Inputs:   pg = percent gravel (%)
-##            ps = percent sand (%)
-##            pf = percent fines (%)
-##            Cu = coefficient of uniformity
-##            Cc = coefficient of curvature
-##            LL = liquid limit
-##            PL = plastic limit
-##            PI = plasticity index
-##
-##  Notes: o  Data on the soil's gradation (Cu and Cc) are required if
-##            the percent fines is less than or equal to 12%.
-##         o  Data on the soil's fines [either (a) LL and PL or (b) LL and PI] are
-##            required if the percent fines is greater than or equal to 5%.
-
+#' USCS Soil Classification (USCS Coarse-Grained Symbol)
+#' 
+#' Classifies soil using the Unified Soil Classification
+#' System (USCS) using the coarse-grained symbol. 1 December 2015
+#'
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' @return A soil's USCS coarse-grained symbol
+#' 
+#' @param pg = percent gravel (\%)
+#' @param ps = percent sand (\%)
+#' @param pf = percent fines (\%)
+#' @param Cu = coefficient of uniformity
+#' @param Cc = coefficient of curvature
+#' @param LL = liquid limit
+#' @param PL = plastic limit
+#' @param PI = plasticity index
+#' 
+#' @note
+#' Data on the soil's gradation (Cu and Cc) are required if the percent fines
+#' is less than or equal to 12%. Data on the soil's fines [either (a) LL and PL
+#' or (b) LL and PI] are required if the percent fines is greater than or equal
+#' to 5%.
+#' 
+#' @export
 USCS.coarse.symbol <- function(pg, ps, pf, Cc, Cu, PI = NA, LL, PL){
 
   ##  Sand vs. gravel (first letter)
@@ -311,7 +338,7 @@ USCS.coarse.symbol <- function(pg, ps, pf, Cc, Cu, PI = NA, LL, PL){
     coarse <- "S"
   }
 
-  ##  ------------------------------
+
   ##  Second letter: gravel
   if(coarse == "G"){
     ##  Percent fines < 5%
@@ -358,7 +385,7 @@ USCS.coarse.symbol <- function(pg, ps, pf, Cc, Cu, PI = NA, LL, PL){
   }
         
 
-  ##  ------------------------------
+
   ##  Second letter: sand
   if(coarse == "S"){
     ##  Percent fines < 5%
@@ -410,44 +437,57 @@ USCS.coarse.symbol <- function(pg, ps, pf, Cc, Cu, PI = NA, LL, PL){
 
 
 
-##------------------------------------------------------------------------------------------
-##  2c. USCS SOIL CLASSIFICATION
-##
-##  Description:  This is a master function that calculates a soil's classification
-##                according to the Unified Soil Classification System (USCS).
-##                The functions A.line, USCS.coarse.symbol, and USCS.fine.symbol
-##                are called by this function.
-##
-##  Output:   A two-element list providing a soil's USCS group symbol and name
-##            symbol = USCS group symbol
-##            name = USCS group name
-##
-##  Inputs:   pg = percent gravel (%)
-##            ps = percent sand (%)
-##            pf = percent fines (%)
-##            Cu = coefficient of uniformity
-##            Cc = coefficient of curvature
-##            LL = liquid limit
-##            PL = plastic limit
-##            PI = plasticity index
-##            sieve = vector of sieve numbers according to ASTM D422 for grain-size distribution
-##            size = vector of grain sizes (in or mm) in distribution
-##            percent = vector of percent passing (grain-size distribution)
-##            metric = logical variable: TRUE for metric units (mm), FALSE for English units (in)
-##                     [only needed if grain sizes are provided]
-##
-##  Notes: o  Data on the soil's grain-size distribution are required if
-##            the percent fines is less than or equal to 12%.  The user has three options
-##            for input to this function:
-##            1.  Sieve numbers (sieve); and percent passing
-##            2.  Grain sizes (size); and percent passing
-##            3.  Percent components (pg, ps, pf) and coefficients of uniformity
-##                and curvature (Cc and Cu)
-##         o  Data on the soil's fines [either (a) LL and PL or (b) LL and PI] are
-##            required if the percent fines is greater than or equal to 5%.
-##         o  If percent components are specified, then Cu and Cc are needed if
-##            pf < 85%.
 
+#' USCS Soil Classification
+#' 
+#' This is a master function that calculates a soil's classification according
+#' to the Unified Soil Classification System (USCS). The functions A.line,
+#' USCS.coarse.symbol, and USCS.fine.symbol are called by this function. 1
+#' December 2015
+#'
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' @return A two-element list providing a soil's USCS group symbol and name
+#'    symbol = USCS group symbol and name = USCS group name
+#' 
+#' @param pg = percent gravel (\%)
+#' @param ps = percent sand (\%)
+#' @param pf = percent fines (\%)
+#' @param Cu = coefficient of uniformity
+#' @param Cc = coefficient of curvature
+#' @param LL = liquid limit
+#' @param PL = plastic limit
+#' @param PI = plasticity index
+#' @param sieve = vector of sieve numbers according to ASTM D422 for grain-size
+#'    distribution
+#' @param size = vector of grain sizes (in or mm) in distribution
+#' @param percent = vector of percent passing (grain-size distribution)
+#' @param metric = logical variable: TRUE for metric units (mm), FALSE for
+#'    English units (in) [only needed if grain sizes are provided]
+#'
+#' @note
+#' Data on the soil's grain-size distribution are required if the percent fines
+#' is less than or equal to 12%. The user has three options for input to this
+#' function:          
+#' 1.  Sieve numbers (sieve); and percent passing
+#' 2.  Grain sizes (size); and percent passing
+#' 3.  Percent components (pg, ps, pf) and coefficients of uniformity and
+#' curvature (Cc and Cu)           
+#' Data on the soil's fines [either (a) LL and PL or (b) LL and PI] are required
+#' if the percent fines is greater than or equal to 5%.
+#' If percent components are specified, then Cu and Cc are needed if pf < 85%.
+#' @examples
+#' USCS(pg = 15, ps = 34, pf = 51, Cc = 1, Cu = 4, LL = 40, PL = 10)
+#' 
+#' @export
 USCS <- function(pg = NA, ps = NA, pf = NA, Cc = NA, Cu = NA,
                  LL = NA, PL = NA, PI = NA, sieve = NA, size = NA,
                  percent = NA, metric = NA){
@@ -469,8 +509,8 @@ USCS <- function(pg = NA, ps = NA, pf = NA, Cc = NA, Cu = NA,
 
   }
     
-  ##  ---------------------------------------------------------
-  ##  FINE-GRAINED SOILS
+
+  ##  Fine-Grained Soils
   if(pf >= 50){
     
     ##  Group symbol
@@ -620,8 +660,8 @@ USCS <- function(pg = NA, ps = NA, pf = NA, Cc = NA, Cu = NA,
       }
     }
     
-    ##  ---------------------------------------------------------
-    ##  COARSE-GRAINED SOILS
+  
+    ##  Coarse-Grained Soils
   } else if(pf < 50){
     
 
@@ -745,6 +785,3 @@ USCS <- function(pg = NA, ps = NA, pf = NA, Cc = NA, Cu = NA,
   ## Return soil group symbol and name
   return(list(symbol = symbol, name = name))
 }
-
-##  Example
-##  USCS(pg = 15, ps = 34, pf = 51, Cc = 1, Cu = 4, LL = 40, PL = 10)

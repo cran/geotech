@@ -1,39 +1,38 @@
-##  SLOPE STABILITY
-##  Jim Kaklamanos and Kyle Elmy
-##  1 January 2016
-
-
-
-
-########################################################################################
-##  1. SLOPE STABILITY (INFINITE SLOPE ANALYSIS)
-
-##  Output:  Factor of safety against shear failure on slopes using infinite slope analyses
-##
-##  Input:   Soil parameters:
-##           o  c = soil cohesion
-##           o  phi = soil friction angle (degrees)
-##           o  gamma = soil unit weight
-##           o  gammaW = unit weight of water (default = 62.4 pcf for English units;
-##                                                       9.81 kN/m^3 for metric units)
-##           Slope geometry:
-##           o  alpha = slope angle (degrees)
-##           o  D = depth to failure plane
-##           o  zw = distance of groundwater table above failure plane
-##                   (use 0 for a dry slope and D for a submerged slope with parallel seepage)
-##
-##           Units:
-##           o  metric = logical variable: TRUE (for metric units: kN/m^3)
-##                       or FALSE (for English units: pcf)
-##                       [this is needed if gammaW is unspecified]
-##           
-##
-##  Notes:   Assumptions of infinite slope analyses include (Coduto et al., 2011):
-##           1. The slope face is planar and of infinite extent.
-##           2. The failure surface is parallel to the slope face.
-##           3. Vertical columns of equal dimensions through the slope are identical.
-##
-
+#' Slope Stability (Infinite Slope Analysis)
+#' 
+#' Determines the slope stability using the infinite slope analysis. 1 January
+#' 2016
+#' 
+#' @author Jim Kaklamanos and Kyle Elmy
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' @return Factor of safety against shear failure on slopes using infinite
+#'     slope analyses
+#' 
+#' @param c = soil cohesion [Soil parameter]
+#' @param phi = soil friction angle (degrees) [Soil parameter]
+#' @param gamma = soil unit weight [Soil parameter]
+#' @param gammaW = unit weight of water (default = 62.4 pcf for English units;
+#'     9.81 kN/m^3 for metric units) [Soil parameter]         
+#' @param alpha = slope angle (degrees) [Slope geometry]
+#' @param D = depth to failure plane [Slope geometry]
+#' @param zw = distance of groundwater table above failure plane
+#'     (use 0 for a dry slope and D for a submerged slope with parallel seepage)
+#'     [Slope geometry]
+#' @param metric = logical variable: TRUE (for metric units: kN/m^3) or FALSE
+#'     (for English units: pcf) [this is needed if gammaW is unspecified] [Units]
+#' @note
+#' Assumptions of infinite slope analyses include (Coduto et al., 2011):
+#' 1. The slope face is planar and of infinite extent.
+#' 2. The failure surface is parallel to the slope face.
+#' 3. Vertical columns of equal dimensions through the slope are identical.
+#' @export
 FSinf <- function(c, phi, gamma, gammaW = NA, alpha, D, zw, metric){
 
   
@@ -67,23 +66,30 @@ FSinf <- function(c, phi, gamma, gammaW = NA, alpha, D, zw, metric){
 
 
 
-########################################################################################
-##  2. SLOPE STABILITY (PLANAR FAILURE ANALYSIS)
-
-##  Output:  Factor of safety against shear failure on slopes with a planar failure surface
-##
-##  Input:   Soil parameters:
-##           o  c = soil cohesion
-##           o  phi = soil friction angle
-##
-##           Slope geometry:
-##           o  alpha = angle of failure plane (degrees)
-##           o  L = length of failure plane
-##           o  W = weight of slope per unit width
-##           o  u = average pressure head on the failure plane
-##
-##  Notes:   Either English or metric units can be used, but they must be consistent.
-
+#' Slope Stability (Planar Failure Analysis)
+#' 
+#' Determines the slope stability using the planar failure
+#' analysis. 1 January 2016
+#' 
+#' @author Jim Kaklamanos and Kyle Elmy
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' @return Factor of safety against shear failure on slopes with a planar
+#'     failure surface
+#' @param c = soil cohesion [Soil parameters]
+#' @param phi = soil friction angle [Soil parameters]
+#' @param alpha = angle of failure plane (degrees) [Slope geometry]
+#' @param L = length of failure plane [Slope geometry]
+#' @param W = weight of slope per unit width [Slope geometry]
+#' @param u = average pressure head on the failure plane [Slope geometry]
+#' @note
+#' Either English or metric units can be used, but they must be consistent.
+#' @export
 FSplanar <- function(c, phi, alpha, L, W, u){
 
   ##  Convert angles to radians
@@ -101,4 +107,3 @@ FSplanar <- function(c, phi, alpha, L, W, u){
   
   return(FS)
 }
-

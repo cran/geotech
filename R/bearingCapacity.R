@@ -1,27 +1,38 @@
-##  BEARING CAPACITY
-##  Kyle Elmy and Jim Kaklamanos
-##  1 October 2015
-
-
-########################################################################################
-##  1. GROSS BEARING PRESSURE
-
-##  Output:   Gross bearing pressure of footing (psf or kPa)
-##
-##  Inputs:   P = Vertical gross column load (lb or kN)
-##            B = foundation width (ft or m)
-##            L = foundation length (ft or m)
-##            D = Depth of foundation (ft or m)
-##            Dw = Depth of groundwater table below foundation base (ft or m)
-##            metric = logical variable: TRUE (for metric units) or FALSE (for English units)
-##            gammaW = unit weight of water (default = 62.4 pcf for English units; 9.81 kN/m^3 for metric units)
-##            gammaC = unit weight of concrete (default = 150 pcf for English units; 23.6 kN/m^3 for metric units)
-## 
-##  Notes:   o  Either SI or English units can be used, but must stay consistent.
-##           o  When specifying the length and width, L should be the longer of the two lengths.
-##           o  For a continuous (strip) foundation, specify L = 1 and specify P as the load per unit length
-##           o  When the groundwater table is deep or unknown, set Dw >= D.
-
+#' Gross Bearing Pressure (Bearing Capacity)
+#' 
+#' Calculates the footing gross bearing pressure. 1 October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' 
+#' @return Gross bearing pressure of footing (psf or kPa)
+#' 
+#' @param P = Vertical gross column load (lb or kN)
+#' @param B = foundation width (ft or m)
+#' @param L = foundation length (ft or m)
+#' @param D = Depth of foundation (ft or m)
+#' @param Dw = Depth of groundwater table below foundation base (ft or m)
+#' @param metric = logical variable: TRUE (for metric units) or FALSE (for English units)
+#' @param gammaW = unit weight of water (default = 62.4 pcf for English units; 9.81 kN/m^3 for metric units)
+#' @param gammaC = unit weight of concrete (default = 150 pcf for English units; 23.6 kN/m^3 for metric units)
+#' 
+#' @examples
+#' bearingPressure(P = 1000, B = 2, L = 5, D = 6, Dw = 2, metric = FALSE)
+#' 
+#' @note
+#' Either SI or English units can be used, but must stay consistent.
+#' When specifying the length and width, L should be the longer of the two lengths.
+#' For a continuous (strip) foundation, specify L = 1 and specify P as the load per unit length
+#' When the groundwater table is deep or unknown, set Dw >= D.
+#' @export
 bearingPressure <- function(P, B, L, D, Dw, metric, gammaW = NA, gammaC = NA){
 
   ##  Define gammaW and gammaC for metric units
@@ -54,33 +65,44 @@ bearingPressure <- function(P, B, L, D, Dw, metric, gammaW = NA, gammaC = NA){
   return(q)
 }
 
-##  Example code for this function:
-##
-##  BearingPressure(P = 1000, B = 2, L = 5, D = 6, Dw = 2, metric = FALSE)
 
 
 
 
-########################################################################################
-##  2. BEARING CAPACITY FACTORS
 
-##  Output:   Bearing capacity factor (Nq, Nc, Ngamma) using either the
-##            Terzaghi or Vesic methods
-##
-##  Inputs:   phi = friction angle (degrees)
-##            case = "general" or "local" to indicate general or
-##                   local shear failure ("general" is default)
-##            method = "Terzaghi" or "Vesic" ("Terzaghi" is default)
-##
-##  Notes:    o  For local shear, the friction angle is reduced to a value equal to
-##               atan(2/3 * tan(phi)).
-##            o  Terzaghi's Ngamma is approximated by Coduto (2001).
-
-
-##  ------------------------------------------------------
-##  FUNCTION FOR Nq
-
+#' Bearing Capacity Factors (Nq)
+#' 
+#' Calculates the bearing capacity factor Nq. 1 October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' @return Bearing capacity factor (Nq) using either the Terzaghi
+#'    or Vesic methods
+#'          
+#' 
+#' @param phi = friction angle (degrees)
+#' @param case = "general" or "local" to indicate general or local shear
+#'    failure ("general" is default)
+#' @param method = "Terzaghi" or "Vesic" ("Terzaghi" is default)
+#' 
+#' @note
+#' For local shear, the friction angle is reduced to a value equal to atan(2/3
+#' * tan(phi)). 
+#' 
+#' 
+#' 
+#' @export
 Nq <- function(phi, case = "general", method = "Terzaghi"){
+
+##  FUNCTION FOR Nq
 
   ##  Input checking
   if(case != "general" && case != "local")
@@ -109,10 +131,40 @@ Nq <- function(phi, case = "general", method = "Terzaghi"){
 }
 
  
-##  -----------------------------------------------------
-##  FUNCTION FOR Nc
 
+#' Bearing Capacity Factors (Nc)
+#' 
+#' Calculates the bearing capacity factor Nc. 1 October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' @return Bearing capacity factor (Nc) using either the Terzaghi
+#'    or Vesic methods
+#'          
+#' 
+#' @param phi = friction angle (degrees)
+#' @param case = "general" or "local" to indicate general or local shear
+#'    failure ("general" is default)
+#' @param method = "Terzaghi" or "Vesic" ("Terzaghi" is default)
+#' 
+#' @note
+#' For local shear, the friction angle is reduced to a value equal to atan(2/3
+#' * tan(phi)).
+#' 
+#' 
+#' 
+#' @export
 Nc <- function(phi, case = "general", method = "Terzaghi"){
+
+##  FUNCTION FOR Nc
 
   ##  Input checking
   if(case != "general" && case != "local")
@@ -142,10 +194,42 @@ Nc <- function(phi, case = "general", method = "Terzaghi"){
 }
 
 
-##  -----------------------------------------------------
-##  FUNCTION FOR Ngamma
 
+
+
+#' Bearing Capacity Factors (Ngamma)
+#' 
+#' Calculates the bearing capacity factor Ngamma. 1 October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' @return Bearing capacity factor (Ngamma) using either the Terzaghi
+#'    or Vesic methods
+#'          
+#' 
+#' @param phi = friction angle (degrees)
+#' @param case = "general" or "local" to indicate general or local shear
+#'    failure ("general" is default)
+#' @param method = "Terzaghi" or "Vesic" ("Terzaghi" is default)
+#' 
+#' @note
+#' For local shear, the friction angle is reduced to a value equal to atan(2/3
+#' * tan(phi)).
+#' 
+#' 
+#' 
+#' @export
 Ngamma <- function(phi, case = "general", method = "Terzaghi"){
+
+##  FUNCTION FOR Ngamma
 
   ##  Input checking
   if(case != "general" && case != "local")
@@ -178,30 +262,46 @@ Ngamma <- function(phi, case = "general", method = "Terzaghi"){
 
 
 
-########################################################################################
-##  3. ULTIMATE BEARING CAPACITY (Terzaghi)
-
-
-##  Output:   Bearing capacity (q_ult) from Terzaghi's simple theory (psf or kPa)
-##
-##  Inputs:   phi = effective friction angle (deg)
-##            c = effective cohesion (psf or kPa)
-##            B = foundation width (ft or m), or foundation diameter for circular footings
-##            L = foundation length (ft or m)
-##            D = Depth of foundation (ft or m)
-##            Dw = Depth of groundwater table below foundation base (ft or m)
-##            gamma = unit weight of soil (pcf of kN/m^3)
-##            gammaW = unit weight of water (default = 62.4 pcf for English units; 9.81 kN/m^3 for metric units)
-##            case = "general" or "local" to indicate general or
-##                   local shear failure ("general" is default)
-##            shape = "square", "rectangle", "circle", "strip" (or "continuous")
-##            metric = logical variable: TRUE (for metric units) or FALSE (for English units)
-## 
-##  Notes:   o  Either SI or English units can be used, but must stay consistent.
-##           o  When specifying the length and width of rectangular foundations,
-##              L should be the longer of the two lengths.
-##           o  When the groundwater table is deep or unknown, set Dw >= D + B
-
+#' Ultimate Bearing Capacity (Terzaghi)
+#' 
+#' Calculates the ultimate bearing capacity from Terzaghi's simple theory. 1
+#' October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#'
+#' @return Bearing capacity (q_ult) from Terzaghi's simple theory (psf or kPa)
+#'
+#' @param phi = effective friction angle (deg)
+#' @param c = effective cohesion (psf or kPa)
+#' @param B = foundation width (ft or m), or foundation diameter for circular
+#'    footings
+#' @param L = foundation length (ft or m)
+#' @param D = Depth of foundation (ft or m)
+#' @param Dw = Depth of groundwater table below foundation base (ft or m)
+#' @param gamma = unit weight of soil (pcf of kN/m^3)
+#' @param gammaW = unit weight of water (default = 62.4 pcf for English units;
+#'    9.81 kN/m^3 for metric units)
+#' @param case = "general" or "local" to indicate general or local shear
+#'    failure ("general" is default)          
+#' @param shape = "square", "rectangle", "circle", "strip" (or "continuous")
+#' @param metric = logical variable: TRUE (for metric units) or FALSE (for
+#'    English units)
+#' 
+#' @note
+#' Either SI or English units can be used, but must stay consistent.
+#' When specifying the length and width of rectangular foundations, L should be
+#' the longer of the two lengths.             
+#' When the groundwater table is deep or unknown, set Dw >= D + B
+#' @export
 bearingCapacity <- function(phi, c, B, L, D, Dw, gamma, gammaW = NA, metric,
                             case = "general", shape = "square"){
   

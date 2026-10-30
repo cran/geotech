@@ -1,24 +1,34 @@
-##  GROUNDWATER
-##  Kyle Elmy and Jim Kaklamanos
-##  1 January 2016
-
-
-
-########################################################################################
-##  1. HYDRAULIC CONDUCTIVITY FROM CONSTANT HEAD TEST
-
-##  Output:   Hydraulic condcutivity from the constant head test
-##
-##  Inputs:   V = volume of water collected
-##            t = time of flow
-##            h = head difference between inflow and outflow
-##            L = length of soil sample
-##            As = cross-sectional area of the soil sample
-##            Ds = diameter of soil sample
-##
-##  Notes:    o  Either English or metric units can be used, but they must be consistent.
-##            o  Either the area or the diameter of the soil sample need to be specified
-
+#' Hydraulic Conductivity From Constant Head Test (Groundwater)
+#' 
+#' Computes the hydraulic conductivity from the constant head test. 1 January
+#' 2016
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' @return Hydraulic conductivity from the constant head test
+#' 
+#' @param V = volume of water collected
+#' @param t = time of flow
+#' @param h = head difference between inflow and outflow
+#' @param L = length of soil sample
+#' @param As = cross-sectional area of the soil sample
+#' @param Ds = diameter of soil sample
+#' 
+#' @examples
+#' kConstant(V = 800, t = 100, h = 200, As = 40, L = 50)
+#' # k in units of cm/s
+#' 
+#' @note
+#' Either English or metric units can be used, but they must be consistent.
+#' Either the area or the diameter of the soil sample need to be specified
+#' @export
 kConstant <- function(V, t, h, L, As = NA, Ds = NA){
 
   ##  Compute flow rate
@@ -38,30 +48,46 @@ kConstant <- function(V, t, h, L, As = NA, Ds = NA){
   return(k)
 }
 
-##  Example code for this function (k in units of cm/s)
-##  kConstant(V = 800, t = 100, h = 200, As = 40, L = 50)
 
 
 
 
 
-########################################################################################
-##  2. HYDRAULIC CONDUCTIVITY FROM FALLING HEAD TEST
 
-##  Output:   Hydraulic condcutivity from the falling head test
-##
-##  Inputs:   h0 = head difference at beginning of test
-##            hf = head difference at end of test (h0 > hf)
-##            t = time of flow
-##            L = length of soil sample
-##            As = cross-sectional area of the soil sample
-##            Ap = cross-sectional area of the standpipe
-##            Ds = diameter of the soil sample
-##            Dp = diameter of the standpipe
-##
-##  Notes:    o  Either English or metric units can be used, but they must be consistent.
-##            o  Either the areas (As and Ap) OR the diameters (Ds and Dp) need to be specified.
-
+#' Hydraulic Conductivity From Falling Head Test (Groundwater)
+#' 
+#' Computes the hydraulic conductivity from the falling head test. 1 January
+#' 2016
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' @return Hydraulic conductivity from the falling head test
+#' 
+#' @param h0 = head difference at beginning of test
+#' @param hf = head difference at end of test (h0 > hf)
+#' @param t = time of flow
+#' @param L = length of soil sample
+#' @param As = cross-sectional area of the soil sample
+#' @param Ap = cross-sectional area of the standpipe
+#' @param Ds = diameter of the soil sample
+#' @param Dp = diameter of the standpipe
+#' 
+#' @examples
+#' kFalling(h0 = 12, hf = 2, L = 10, Ds = 20, Dp = 2, t = 100)
+#' # k in units of cm/s
+#' 
+#' @note
+#' Either English or metric units can be used, but they must be consistent.
+#' Either the areas (As and Ap) OR the diameters (Ds and Dp) need to be specified.
+#' 
+#' @export
 kFalling <- function(h0, hf, t, L, As = NA, Ap = NA, Ds = NA, Dp = NA){
 
   ##  Cross-sectional areas
@@ -78,21 +104,32 @@ kFalling <- function(h0, hf, t, L, As = NA, Ap = NA, Ds = NA, Dp = NA){
   return(k)
 }
 
-##  Example code for this function (k in units of cm/s)
-##  kFalling(h0 = 12, hf = 2, L = 10, Ds = 20, Dp = 2, t = 100)
 
 
 
 
-########################################################################################
-##  3. EQUIVALENT HORIZONTAL HYDRAULIC CONDUCTIVITY
 
-##  Output:   Equivalent horizontal hydraulic conductivity (kx) for layered soil deposits
-##
-##  Inputs:   thk = vector of layer thicknesses
-##            k = vector of layer hydraulic conductivities
-
-
+#' Equivalent Horizontal Hydraulic Conductivity (Groundwater)
+#' 
+#' Computes the equivalent horizontal hydraulic conductivity. 1 January
+#' 2016
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' @return Equivalent horizontal hydraulic conductivity (kx) for layered soil
+#'     deposits
+#' 
+#' @param thk = vector of layer thicknesses
+#' @param k = vector of layer hydraulic conductivities
+#' 
+#' @export
 kx <- function(thk, k){
 
   return(sum(k * thk) / sum(thk))
@@ -102,15 +139,22 @@ kx <- function(thk, k){
 
 
 
-########################################################################################
-##  4. EQUIVALENT VERTICAL HYDRAULIC CONDUCTIVITY
-
-##  Output:   Equivalent vertical hydraulic conductivity (kz) for layered soil deposits
-##
-##  Inputs:   thk = vector of layer thicknesses
-##            k = vector of layer hydraulic conductivities
-
-
+#' Equivalent Vertical Hydraulic Conductivity (Groundwater)
+#' 
+#' Computes the equivalent vertical hydraulic conductivity. 1 January
+#' 2016
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' @return Equivalent vertical hydraulic conductivity (kz) for layered soil
+#'     deposits
+#' 
+#' @param thk = vector of layer thicknesses
+#' @param k = vector of layer hydraulic conductivities
+#' 
+#' @export
 kz <- function(thk, k){
 
   return(sum(thk) / sum(thk / k))
@@ -120,24 +164,39 @@ kz <- function(thk, k){
 
 
 
-########################################################################################
-##  5. FLOW RATE TO WELLS
-
-##  Output:   Q = flow rate to well
-##
-##  Inputs:   k = hydraulic conductivity of aquifer
-##            H = thickness of aquifer
-##            h0 = initial total head in aquifer (before pumping)
-##            hf = final total head in well casing (after pumping)
-##            r0 = radius of influence
-##            rw = radius of well
-##
-##  Notes:    o  Datum for h0 and hf is the bottom of the aquifer.
-##            o  For unconfined aquifers, H > h0 (or specify as NA)
-##            o  For confined aquifers, H >= hf.
-##            o  For mixed aquifers (which start as confined prior to pumping and finish as
-##               unconfined after pumping is complete), H < hf.
-
+#' Flow Rate to Wells (Groundwater)
+#' 
+#' Computes the flow rate to wells. 1 January 2016
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' @return Q = flow rate to well
+#' 
+#' @param k = hydraulic conductivity of aquifer
+#' @param H = thickness of aquifer
+#' @param h0 = initial total head in aquifer (before pumping)
+#' @param hf = final total head in well casing (after pumping)
+#' @param r0 = radius of influence
+#' @param rw = radius of well
+#' 
+#' @examples
+#' wellFlow(k = 0.065, H = 10, h0 = 21, hf = 15, r0 = 20, rw = 2)
+#' 
+#' @note
+#' Datum for h0 and hf is the bottom of the aquifer.
+#' For unconfined aquifers, H > h0 (or specify as NA)
+#' For confined aquifers, H >= hf.
+#' For mixed aquifers (which start as confined prior to pumping and finish as
+#' unconfined after pumping is complete), H < hf.
+#'               
+#' @export
 wellFlow <- function(k, H = NA, h0, hf, r0, rw){
 
   ##  Unconfined aquifers
@@ -161,33 +220,47 @@ wellFlow <- function(k, H = NA, h0, hf, r0, rw){
   return(Q)
 }
 
-##  Example:
-##  wellFlow(k = 0.065, H = 10, h0 = 21, hf = 15, r0 = 20, rw = 2)
 
 
 
 
-########################################################################################
-##  6. WELL DRAWDOWN
 
-##  Output:   A two-element list containing:
-##            h = height of groundwater surface a distance r from the well
-##            dd = h0 - h = drawdown of groundwater surface a distance r from the well
-##
-##  Inputs:   Q = flow rate into well
-##            k = hydraulic conductivity of aquifer
-##            H = saturated thickness of aquifer
-##            h0 = initial total head in aquifer (before pumping)
-##            r0 = radius of influence
-##            rw = radius of well
-##            r = radius of interest
-##
-##  Notes:    o  Datum for total heads are the bottom of the aquifer.
-##            o  For unconfined aquifers, H = NA.
-##            o  For confined aquifers, H >= hf.
-##            o  For mixed aquifers (which start as confined prior to pumping and finish as
-##               unconfined after pumping is complete), H < hf.
-
+#' Well Drawdown (Groundwater)
+#' 
+#' Computes the well drawdown. 1 January 2016
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' @return A two-element list containing: h = height of groundwater surface a
+#'    distance r from the well and dd = h0 - h = drawdown of groundwater
+#'    surface a distance r from the well
+#' 
+#' 
+#' @param Q = flow rate into well
+#' @param k = hydraulic conductivity of aquifer
+#' @param H = saturated thickness of aquifer
+#' @param h0 = initial total head in aquifer (before pumping)
+#' @param r0 = radius of influence
+#' @param rw = radius of well
+#' @param r = radius of interest
+#'
+#' @examples
+#' wellDrawdown(Q = 14.5, k = 0.065, H = 10, h0 = 21, r0 = 20, r = 2, rw = 2)
+#'
+#' @note
+#' Datum for total heads are the bottom of the aquifer.
+#' For unconfined aquifers, H = NA.
+#' For confined aquifers, H >= hf.
+#' For mixed aquifers (which start as confined prior to pumping and finish as
+#' unconfined after pumping is complete), H < hf.
+#' @export
 wellDrawdown <- function(Q, k, H = NA, h0, r0, rw, r){
 
   ##  Return h = h0 and dd = 0 if r > r0
@@ -224,30 +297,44 @@ wellDrawdown <- function(Q, k, H = NA, h0, r0, rw, r){
   return(list(h = h, dd = dd))
 }
 
-##  Example:
-##  wellDrawdown(Q = 14.5, k = 0.065, H = 10, h0 = 21, r0 = 20, r = 2, rw = 2)
 
 
 
 
-########################################################################################
-##  7. HYDRAULIC CONDUCTIVITY FROM PUMPING TESTS
 
-##  Output:   k = hydraulic conductivity of aquifer
-##
-##  Inputs:   Q = flow rate into well
-##            H = thickness of aquifer
-##            h1 = total head in farthest observation well
-##            h2 = total head in nearest observation well
-##            r1 = radius from pumped well to farthest observation well
-##            r2 = radius from pumped well to nearest observation well
-##
-##  Notes:    o  Datum for h0 and hf is the bottom of the aquifer.
-##            o  For unconfined aquifers, H > h1 (or specify as NA)
-##            o  For confined aquifers, H >= h2.
-##            o  For mixed aquifers (which start as confined prior to pumping and finish as
-##               unconfined after pumping is complete), H < h2.
-
+#' Hydraulic Conductivity From Pumping Tests (Groundwater)
+#' 
+#' Computes the hydraulic conductivity from pumping tests. 1 January 2016
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' @return k = hydraulic conductivity of aquifer
+#' 
+#' @param Q = flow rate into well
+#' @param H = thickness of aquifer
+#' @param h1 = total head in farthest observation well
+#' @param h2 = total head in nearest observation well
+#' @param r1 = radius from pumped well to farthest observation well
+#' @param r2 = radius from pumped well to nearest observation well
+#'
+#'
+#' @examples
+#' kPump(Q = 14.5, H = 10, h1 = 20, h2 = 16, r1 = 16, r2 = 8)
+#'
+#' @note
+#' Datum for h0 and hf is the bottom of the aquifer.
+#' For unconfined aquifers, H > h1 (or specify as NA)
+#' For confined aquifers, H >= h2.
+#' For mixed aquifers (which start as confined prior to pumping and finish as
+#' unconfined after pumping is complete), H < h2.
+#' @export
 kPump <- function(Q, H = NA, h1, h2, r1, r2){
 
   ##  Unconfined aquifers
@@ -270,9 +357,3 @@ kPump <- function(Q, H = NA, h1, h2, r1, r2){
   }
   return(k)
 }
-
-##  Example:
-##  kPump(Q = 14.5, H = 10, h1 = 20, h2 = 16, r1 = 16, r2 = 8)
-
-
-

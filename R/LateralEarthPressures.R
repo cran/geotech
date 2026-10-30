@@ -1,38 +1,61 @@
-##  LATERAL EARTH PRESSURES
-##  Kyle Elmy and Jim Kaklamanos
-##  1 October 2015
-
-
-########################################################################################
-##  1. COEFFICIENT OF LATERAL EARTH PRESSURE (GENERAL)
-
-##  Output:  Coefficient of lateral earth pressure
-##
-##  Inputs:  sigmax = Horizontal effective stress
-##           sigmaz = Vertical effective stress
-
+#' Coefficient of Lateral Earth Pressure (General)
+#' 
+#' Calculates the general coefficient of lateral earth pressure. 1 October 2015
+#' 
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' 
+#' @return Coefficient of lateral earth pressure
+#'
+#' @examples
+#' K(sigmax = 50, sigmaz =90)
+#' 
+#' @param sigmax = Horizontal effective stress
+#' @param sigmaz = Vertical effective stress
+#' @export
 K <- function(sigmax, sigmaz){
   return(sigmax / sigmaz)
 }
 
-##  Example code for this function:
-##
-##  K(sigmax = 50, sigmaz =90)
 
 
 
 
-########################################################################################
-##  2. COEFFICIENT OF LATERAL EARTH PRESSURE AT REST
 
-##  Output:  Coefficient of lateral earth pressure at rest
-##
-##  Inputs:  phi = effective friction angle (deg)
-##           OCR = overconsolidation ratio (default = 1)
-##
-##  Notes:   o  For normally consolidated soil, the Jaky (1944) equation is used;
-##           o  for overconsolidated soil, the Mayne and Kulhawy (1982) equation is used
-
+#' Coefficient of Lateral Earth Pressure at Rest
+#' 
+#' Calculates the coefficient of lateral earth pressure at rest. 1 October 2015
+#' 
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' 
+#' @return Coefficient of lateral earth pressure at rest
+#' 
+#' @param phi = effective friction angle (deg)
+#' @param OCR = overconsolidation ratio (default = 1)
+#' 
+#' @note
+#' For normally consolidated soil, the Jaky equation is used; for
+#' overconsolidated soil, the Mayne and Kulhawy equation is used.
+#' @export
 Ko <- function(phi, OCR = 1){
 
   if(OCR == 1){
@@ -48,24 +71,44 @@ Ko <- function(phi, OCR = 1){
 
 
 
-########################################################################################
-##  3. RANKINE ACTIVE AND PASSIVE EARTH PRESSURES
-
-##  Output:  Coefficient of lateral earth pressure (active or passive)
-##
-##  Inputs:  phi = effective friction angle (deg)
-##           beta = angle of backfill (deg); default = 0
-##
-##  Notes:  The Rankine theory requires that beta <= phi
-
-##  -------------------------------------------------------------------
-##  FUNCTION FOR Ka
-
+#' Rankine Active Earth Pressures (Lateral Earth Pressure)
+#' 
+#' Calculates the active coefficient of lateral earth pressure.
+#' 1 October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' 
+#' @return Coefficient of lateral earth pressure (active)
+#' 
+#' @param phi = effective friction angle (deg)
+#' @param beta = angle of backfill (deg); default = 0
+#' 
+#' @note
+#' The Rankine theory requires that beta <= phi
+#' 
+#'
+#' @examples
+#' Ka(phi = 30, beta = 10)
+#' 
+#' 
+#' 
+#' @export
 Ka <- function(phi, beta = 0){
+
+##  FUNCTION FOR Ka
 
   ##  Check angles
   if(beta > phi){
-    stop("Backill angle can be no greater than the soil friction angle.")
+    stop("Backfill angle can be no greater than the soil friction angle.")
   }
   
   ##  Convert angles to radians
@@ -78,19 +121,49 @@ Ka <- function(phi, beta = 0){
   return(num / den)
 }
 
-##  Example code for this function:
-##
-##  Ka(phi = 30, beta = 10)
 
 
-##  -------------------------------------------------------------------
-##  FUNCTION FOR Kp
 
+
+
+#' Rankine Passive Earth Pressures (Lateral Earth Pressure)
+#' 
+#' Calculates the passive coefficient of lateral earth pressure. 1 October 2015
+#' 
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' @return Coefficient of lateral earth pressure (passive)
+#' 
+#' @param phi = effective friction angle (deg)
+#' @param beta = angle of backfill (deg); default = 0
+#' 
+#' @note
+#' The Rankine theory requires that beta <= phi
+#' 
+#'
+#' 
+#' 
+#'
+#' @examples
+#' Kp(phi = 30, beta = 10)
+#' 
+#' @export
 Kp <- function(phi, beta = 0){
+
+##  FUNCTION FOR Kp
 
   ##  Check angles
   if(beta > phi){
-    stop("Backill angle can be no greater than the soil friction angle.")
+    stop("Backfill angle can be no greater than the soil friction angle.")
   }
   
   ##  Convert angles to radians
@@ -104,34 +177,50 @@ Kp <- function(phi, beta = 0){
 }
 
 
-##  Example code for this function:
-##
-##  Kp(phi = 30, beta = 10)
 
 
 
 
-########################################################################################
-##  4. HORIZONTAL STRESS AT A POINT
-##
-##  Output:  A three-element list containing:
-##           sigmaX.eff = effective horizontal stress
-##           sigmaX.total = total horizontal stress
-##           u = pore water pressure
-##
-##  Input:   gamma = vector of unit weights (pcf or kN/m^3)
-##           thk = vector of layer thicknesses (ft or m)
-##           depth = vector of layer bottom depths (ft or m)
-##           zw = depth of groundwater table (ft or m)
-##           zout = desired depth of output (ft or m): a single value
-##           K = vector of lateral earth pressure coefficients
-##           gammaW = unit weight of water (default = 62.4 pcf for English units;
-##                                                   9.81 kN/m^3 for metric units)
-##           metric = logical variable: TRUE (for metric units) or FALSE (for English units)
-##           upper = logical variable to specify whether the upper (TRUE) or lower (FALSE) lateral
-##                   earth pressure coefficient should be used, for the special case that
-##                   zout corresponds to a layer interface
 
+#' Horizontal Stress at a Point (Lateral Earth Pressure)
+#' 
+#' Calculates the horizontal stress at a point. 1 October 2015
+#' 
+#' @return A three-element list containing: sigmaX.eff = effective horizontal
+#'    stress, sigmaX.total = total horizontal stress, and u = pore water pressure
+#'            
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' 
+#' @examples
+#' sigmaX(gamma = c(108, 116), depth = c(15, 40), zout = 18, K = c(0.34, 0.32),
+#' zw = 15, metric = FALSE, upper = TRUE)
+#' 
+#' @param gamma = vector of unit weights (pcf or kN/m^3)
+#' @param thk = vector of layer thicknesses (ft or m)
+#' @param depth = vector of layer bottom depths (ft or m)
+#' @param zw = depth of groundwater table (ft or m)
+#' @param zout = desired depth of output (ft or m): a single value
+#' @param K = vector of lateral earth pressure coefficients
+#' @param gammaW = unit weight of water (default = 62.4 pcf for English units;
+#'    9.81 kN/m^3 for metric units)                                   
+#' @param metric = logical variable: TRUE (for metric units) or FALSE (for
+#'    English units)
+#' @param upper = logical variable to specify whether the upper (TRUE) or lower
+#'    (FALSE) lateral earth pressure coefficient should be used, for the special
+#'    case that zout corresponds to a layer interface
+#'               
+#'                  
+#' @export
 sigmaX <- function(gamma, thk = NA, depth = NA, zw, zout, K, gammaW = NA, metric, upper = TRUE){
 
   ##  Obtain vertical stresses
@@ -165,35 +254,53 @@ sigmaX <- function(gamma, thk = NA, depth = NA, zw, zout, K, gammaW = NA, metric
   return(list(sigmaX.eff = sigmaX.eff, sigmaX.total = sigmaX.total, u = u))  
 }
 
-##  EXAMPLE:
-##  sigmaX(gamma = c(108, 116), depth = c(15, 40), zout = 18,
-##         K = c(0.34, 0.32), zw = 15, metric = FALSE, upper = TRUE)
 
 
 
 
 
-########################################################################################
-##  5. HORIZONTAL STRESS PROFILE
-##
-##  Output:  A four-element list containing four vectors:
-##           depth = depth
-##           sigmaZ.eff = effective vertical stress
-##           sigmaZ.total = total vertical stress
-##           u = pore water pressure
-##
-##  Input:   gamma = vector of unit weights (pcf or kN/m^3)
-##           thk = vector of layer thicknesses (ft or m)
-##           depth = vector of layer bottom depths (ft or m)
-##           K = vector of layers' lateral earth pressure coefficients
-##           zw = depth of groundwater table (ft or m)
-##           zout = desired depths of output (ft or m): defaults to critical locations in
-##                  the profile (the top and bottom of the profile, layer interfaces, and the
-##                  groundwater table) [recommended]
-##           gammaW = unit weight of water (default = 62.4 pcf for English units;
-##                                                   9.81 kN/m^3 for metric units)
-##           metric = logical variable: TRUE (for metric units) or FALSE (for English units)
 
+#' Horizontal Stress Profile (Lateral Earth Pressure)
+#' 
+#' Calculates the horizontal stress profile. 1 October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' 
+#' @return A four-element list containing four vectors: depth = depth,
+#'    sigmaZ.eff = effective vertical stress, sigmaZ.total = total vertical
+#'    stress, and u = pore water pressure
+#'            
+#'            
+#'            
+#'            
+#' 
+#' @examples
+#' sigmaX.profile(gamma = c(108, 116), depth = c(15, 40), K = c(0.34, 0.32),
+#' zw = 15, metric = FALSE)
+#' 
+#' 
+#' @param gamma = vector of unit weights (pcf or kN/m^3)
+#' @param thk = vector of layer thicknesses (ft or m)
+#' @param depth = vector of layer bottom depths (ft or m)
+#' @param K = vector of layers' lateral earth pressure coefficients
+#' @param zw = depth of groundwater table (ft or m)
+#' @param zout = desired depths of output (ft or m): defaults to critical
+#'    locations in the profile (the top and bottom of the profile, layer
+#'    interfaces, and the groundwater table) [recommended]
+#' @param gammaW = unit weight of water (default = 62.4 pcf for English units;
+#'    9.81 kN/m^3 for metric units)
+#' @param metric = logical variable: TRUE (for metric units) or FALSE (for
+#'    English units)
+#' @export
 sigmaX.profile <- function(gamma, thk = NA, depth = NA, K, zw, zout = NA, gammaW = NA, metric){
   
   ##  Determine critical depths
@@ -238,28 +345,52 @@ sigmaX.profile <- function(gamma, thk = NA, depth = NA, K, zw, zout = NA, gammaW
   return(list(depth = zout, sigmaX.eff = sigmaX.eff, sigmaX.total = sigmaX.total, u = u))
 }
 
-##  EXAMPLE:
-##  sigmaX.profile(gamma = c(108, 116), depth = c(15, 40), K = c(0.34, 0.32), zw = 15, metric = FALSE)
 
 
 
 
 
-########################################################################################
-##  6. HORIZONTAL STRESS PLOT
-
-##  Output:  Plot of horizontal stress profile verus depth
-##
-##  Input:   depth = vector of depths (ft or m)
-##           sigmaX.eff = vector of effective stresses (psf or kPa)
-##           sigmaX.total = vector of total stresses (psf or kPa)
-##           u = vector of pore water pressures (psf or kPa)
-##           metric = logical variable: TRUE (for metric units) or FALSE (for English units)
-##
-##  Notes:   o  If sigmaX.total and u are left blank, the plot is only constructed for effective stress
-##           o  Once constructed, additional profiles may be added to this plot
-##              (for example, for induced stress or maximum past pressure)
-
+#' Horizontal Stress Plot (Lateral Earth Pressure)
+#' 
+#' Draws the horizontal stress plot. 1 October 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' 
+#' @return Plot of horizontal stress profile versus depth
+#' 
+#' @param depth = vector of depths (ft or m)
+#' @param sigmaX.eff = vector of effective stresses (psf or kPa)
+#' @param sigmaX.total = vector of total stresses (psf or kPa)
+#' @param u = vector of pore water pressures (psf or kPa)
+#' @param metric = logical variable: TRUE (for metric units) or FALSE (for
+#'    English units)
+#' 
+#' @examples
+#' # Site with constant unit weight = 100 pcf, GWT at 10 ft depth
+#' temp <- sigmaX.profile(gamma = rep(100, 3), depth = c(10, 20, 30), K =
+#' c(0.35, 0.30, 0.28), zw = 10, metric = FALSE)                    
+#' depth <- temp$depth
+#' sigmaTotal <- temp$sigmaX.total
+#' u <- temp$u
+#' sigmaEff <- temp$sigmaX.eff
+#' sigmaX.plot(depth = depth, sigmaX.eff = sigmaEff, metric = FALSE,
+#' sigmaX.total = sigmaTotal, u = u)
+#' 
+#' @note
+#' If sigmaX.total and u are left blank, the plot is only constructed for
+#' effective stress
+#' Once constructed, additional profiles may be added to this plot (for
+#' example, for induced stress or maximum past pressure)
+#' @export
 sigmaX.plot <- function(depth, sigmaX.eff, sigmaX.total = NA, u = NA, metric){
   
   ##  Expression for axes
@@ -281,6 +412,8 @@ sigmaX.plot <- function(depth, sigmaX.eff, sigmaX.total = NA, u = NA, metric){
   }
   
   ##  Plot
+  oldpar <- par(no.readonly = TRUE) # code line i
+  on.exit(par(oldpar)) # code line i + 1
   par(mgp = c(2.8, 1, 0), las = 1)
   plot(sigmaX.eff, depth, type = "l", yaxs = "i", xaxt = "n", col = "black", lwd = 2,
        xlim = c(0, xMax), ylim = c(max(depth), 0),
@@ -312,15 +445,3 @@ sigmaX.plot <- function(depth, sigmaX.eff, sigmaX.total = NA, u = NA, metric){
            col = c("black"), legend = c("Effective horizontal stress"))
   }
 }
-
-
-##  EXAMPLE:
-##  Site with constant unit weight = 100 pcf, GWT at 10 ft depth
-##  temp <- sigmaX.profile(gamma = rep(100, 3), depth = c(10, 20, 30), K = c(0.35, 0.30, 0.28),
-##                         zw = 10, metric = FALSE)
-##  depth <- temp$depth
-##  sigmaTotal <- temp$sigmaX.total
-##  u <- temp$u
-##  sigmaEff <- temp$sigmaX.eff
-##  sigmaX.plot(depth = depth, sigmaX.eff = sigmaEff, metric = FALSE, sigmaX.total = sigmaTotal, u = u)
-

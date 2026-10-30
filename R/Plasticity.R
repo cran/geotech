@@ -1,21 +1,29 @@
-##  PLASTICITY
-##  Kyle Elmy and Jim Kaklamanos
-##  1 December 2015
-
-
-
-########################################################################################
-##  1. LIQUID LIMIT
-##
-##  Description:  Calculate and plot a soil's liquid limit (LL) using the flow curve
-##
-##  Output:   Liquid limit (percent) and plot of soil's flow curve (optional)
-##
-##  Inputs:   N = vector of number of blows obtained from the liquid limit test
-##            w = vector of water contents (PERCENT, not decimal)
-##            draw = logical variable: TRUE if plot of flow curve is desired, FALSE to
-##                   suppress the creation of the plot
-
+#' Liquid Limit (Plasticity)
+#' 
+#' Calculate and plot a soil's liquid limit (LL) using the flow curve. 1
+#' December 2015
+#'
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' 
+#' @return Liquid limit (percent) and plot of soil's flow curve (optional)
+#' 
+#' @param N = vector of number of blows obtained from the liquid limit test
+#' @param w = vector of water contents (PERCENT, not decimal)
+#' @param draw = logical variable: TRUE if plot of flow curve is desired, FALSE
+#'    to suppress the creation of the plot
+#' @examples
+#' LL(N = c(72, 37, 14), w = c(7, 15, 21), draw = TRUE)
+#' # liquid limit analysis
+#' @export
 LL <- function(N, w, draw){
   
   ##  Determine best-fit line for w, N data
@@ -28,6 +36,8 @@ LL <- function(N, w, draw){
   
   ##  Create plot
   if(draw == TRUE){
+    oldpar <- par(no.readonly = TRUE) # code line i
+    on.exit(par(oldpar)) # code line i + 1
     par(las = 1, cex = 1.2)
     plot(x = N, y = w, log = "x", xaxt = "n", col = "white",
          xlab = "Number of blows, N", ylab = "Water content, w (%)",
@@ -48,25 +58,38 @@ LL <- function(N, w, draw){
  
 }
 
-##  Example code for liquid limit analysis
-##  LL(N = c(72, 37, 14), w = c(7, 15, 21), draw = TRUE)
 
 
 
 
 
-########################################################################################
-##  2. PLASTICITY INDEX
-##
-##  Description:  Calculates plasticity index from liquid limit and plastic limit
-##
-##  Output:  A two-element list composed of:
-##           PI = Plasticity index (percent)
-##           descr = qualitative description of soil based on Sowers (1979)
-##
-##  Inputs:  LL = Liquid Limit (percent)
-##           PL = Plastic Limit (percent)
-##
+
+#' Plasticity Index
+#' 
+#' Calculates plasticity index from liquid limit and plastic limit. 1 December
+#' 2015
+#' 
+#'
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#'
+#' @return A two-element list composed of: PI = Plasticity index (percent) and
+#'    descr = qualitative description of soil
+#'           
+#' @param LL = Liquid Limit (percent)
+#' @param PL = Plastic Limit (percent)
+#' @examples
+#' PI(LL=80, PL=30)
+#' 
+#' @export
 PI <- function(LL, PL){
 
   ##  Plasticity index
@@ -86,27 +109,39 @@ PI <- function(LL, PL){
   return(list(PI = PI, descr = descr))
 }
 
-##  Example:
-##
-##  PI(LL=80, PL=30)
 
 
 
 
-########################################################################################
-##  3. LIQUIDITY INDEX
-##
-##  Description:  Calculates liquidity index from liquid limit, plastic limit,
-##                and in-situ moisture content
-##
-##  Output:  A two-element list composed of:
-##           LI = Liquidity index (percent)
-##           descr = qualitative description of soil in its natural moisture state
-##
-##  Inputs:  w = in-situ moisture content (percent)
-##           PL = Plastic Limit (percent)
-##           LL = Liquid Limit (percent)
 
+#' Liquidity Index (Plasticity)
+#' 
+#' Calculates liquidity index from liquid limit, plastic limit, and in-situ
+#' moisture content. 1 December 2015     
+#'
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#'
+#' @return A two-element list composed of: LI = Liquidity index (percent) and
+#'    descr = qualitative description of soil in its natural moisture state
+#' 
+#' 
+#' @param w = in-situ moisture content (percent)
+#' @param PL = Plastic Limit (percent)
+#' @param LL = Liquid Limit (percent)
+#' @examples
+#' 
+#' LI(w = 55, PL = 20, LL = 50)
+#' 
+#' @export
 LI <- function(w, LL, PL){
 
   ## Liquidity index
@@ -128,24 +163,39 @@ LI <- function(w, LL, PL){
   return(list(LI = LI, descr = descr))
 }
 
-##  Example:
-##
-##  LI(w = 55, PL = 20, LL = 50)
 
 
 
 
-########################################################################################
-##  4. CASAGRANDE'S PLASTICITY CHART
-##
-##  Output:  Plot of a soil's plasticity parameters on Casagrande's plasticity chart 
-##
-##  Inputs:  LL = Liquid Limit (percent)
-##           PL = Plastic Limit (percent)
-##           PI = Plasticity index (percent)
-##
-##  Notes:  Either PL or PI must be specified
 
+#' Casagrande's Plasticity Chart
+#'
+#' Plots the Casagrande's plasticity chart. 1 December 2015
+#' 
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#'
+#' @return Plot of a soil's plasticity parameters on Casagrande's plasticity
+#'    chart
+#' 
+#' @param LL = Liquid Limit (percent)
+#' @param PL = Plastic Limit (percent)
+#' @param PI = Plasticity index (percent)
+#' 
+#' @note
+#' Either PL or PI must be specified
+#' @examples
+#' plasticity.plot(LL = 40, PL = 20)
+#' @export
 plasticity.plot <- function(LL, PL = NA, PI = NA){
 
   ##  Calculate PI if not provided
@@ -158,6 +208,8 @@ plasticity.plot <- function(LL, PL = NA, PI = NA){
   yLab <- "Plasticity Index, PI"
 
   ##  Create plot
+  oldpar <- par(no.readonly = TRUE) # code line i
+  on.exit(par(oldpar)) # code line i + 1
   par(mgp = c(2.8, 1, 0), las = 1)
   plot(LL, PI, type = "o", yaxs = "i", xaxs = "i", col = "blue", lwd = 2,
        xlim = c(0,100), ylim = c(0,70),
@@ -194,21 +246,35 @@ plasticity.plot <- function(LL, PL = NA, PI = NA){
 
 }
 
-##  Example:
-##  plasticity.plot(LL = 40, PL = 20)
 
 
 
 
-########################################################################################
-##  5. A-LINE
-##
-##  Output:  The plasticity index corresponding to the A-line on Casagrande's plasticity chart
-##
-##  Inputs:  LL = Liquid Limit (percent)
-##
-##  Notes:  Either PL or PI must be specified
 
+#' A-Line (Plasticity)
+#'
+#' Calculates the A-line on Casagrande's plasticity chart. 1 December 2015
+#' 
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#'  
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#'
+#' @return The plasticity index corresponding to the A-line on Casagrande's
+#'    plasticity chart
+#' 
+#' @param LL = Liquid Limit (percent)
+#' 
+#' @note
+#' Either PL or PI must be specified
+#' @export
 A.line <- function(LL){
   if(LL <= 4){
     return(LL)

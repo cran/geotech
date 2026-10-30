@@ -1,36 +1,52 @@
-##  FUNCTIONS FOR SITE EXPLORATION
-##  Kyle Elmy and Jim Kaklamanos
-##  1 January 2016
-
-
-########################################################################################
-##  1. PLOT OF SOIL PROFILE
-##
-##  Output:  A plot of a soil profile
-##
-##  Input:   thk = vector of layer thicknesses (ft or m)
-##           depth = vector of layer bottom depths (ft or m)
-##           zw = depth of groundwater table (ft or m)
-##           type = vector of soil types (character strings)
-##           gamma = vector of unit weights (pcf or kN/m^3)
-##           phi = vector of soil friction angles (deg)
-##           C = vector of soil cohesion (psf or kPa)
-##           title = desired title of plot (deafult: "Soil Profile")
-##           metric = logical variable: TRUE (for metric units) or FALSE (for English units)
-
-##  Notes:   o  Either layer thicknesses or depth to layer bottoms must be specified.
-##           o  The only necessary variables are thk (or depth), zw, and metric.  All other
-##              variables are optional.
-
+#' Soil Profile Plot for Site Exploration
+#' 
+#' Plots the soil profile for use in site exploration. 1 January 2016
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' 
+#' 
+#' @return A plot of a soil profile
+#' 
+#' @param thk = vector of layer thicknesses (ft or m)
+#' @param depth = vector of layer bottom depths (ft or m)
+#' @param zw = depth of groundwater table (ft or m)
+#' @param type = vector of soil types (character strings)
+#' @param gamma = vector of unit weights (pcf or kN/m^3)
+#' @param phi = vector of soil friction angles (deg)
+#' @param C = vector of soil cohesion (psf or kPa)
+#' @param title = desired title of plot (default: "Soil Profile")
+#' @param metric = logical variable: TRUE (for metric units) or FALSE (for
+#'     English units)
+#' 
+#' @examples
+#' soil.profile(depth = c(20, 40, 52, 60), zw = 20,
+#'              type = c("Dry Sand", "Saturated Sand", "Soft Clay",
+#'                "Dense Gravel"),
+#'              gamma = c(110, 115, 120, 150), phi = c(30, 30, NA, 38),
+#'              C = c(NA, NA, 300, NA), metric = FALSE)
+#' 
+#' 
+#' @note
+#' Either layer thicknesses or depth to layer bottoms must be specified.
+#' The only necessary variables are thk (or depth), zw, and metric.  All other
+#' variables are optional.
+#' 
+#' @export
 soil.profile <- function(thk = NA, depth = NA, zw, type = NA, gamma = NA,
                          phi = NA, C = NA, title = "Soil Profile", metric){
 
-  ##  Determine depths
+  # Determine depths
   if(all(is.na(depth) == TRUE)){
     depth <- cumsum(thk)
   }
 
-  ##  Axis labels
+  # Axis labels
   if(metric == TRUE){
     ylab <- "Depth (m)"
     gamma.unit <- " kN/m^3"
@@ -41,7 +57,9 @@ soil.profile <- function(thk = NA, depth = NA, zw, type = NA, gamma = NA,
     c.unit <- " psf"
   }
 
-  ##  Plot
+  # Plot
+  oldpar <- par(no.readonly = TRUE) # code line i
+  on.exit(par(oldpar)) # code line i + 1
   par(mgp = c(2.8, 1, 0), las = 1)
   plot(x = c(0, 1), y = c(0, max(depth)), ylim = c(max(depth), 0),
        col = "white", type="o", yaxs = "i", xaxs = "i", xaxt = "n",
@@ -85,7 +103,7 @@ soil.profile <- function(thk = NA, depth = NA, zw, type = NA, gamma = NA,
     }
   }
     
-  ##  Line for GWT
+  # Line for GWT
   if(all(is.na(zw)) == FALSE){
     abline(h = zw, lwd = 1, lty = 1, col = "white")
     abline(h = zw, lwd = 1, lty = 3, col="blue")
@@ -93,38 +111,48 @@ soil.profile <- function(thk = NA, depth = NA, zw, type = NA, gamma = NA,
   }
 }
 
-##  EXAMPLE: 
-##  soil.profile(depth = c(20, 40, 52, 60), zw = 20,
-##               type = c("Dry Sand", "Saturated Sand", "Soft Clay", "Dense Gravel"),
-##               gamma = c(110, 115, 120, 150), phi = c(30, 30, NA, 38),
-##               C = c(NA, NA, 300, NA), metric = FALSE)
+
  
 
 
 
 
-########################################################################################
-##  2. SPT CORRECTION: N60
-##
-##  Output:  SPT blow count (N-value) corrected for field procedures
-##
-##  Input:   N = raw SPT N-value
-##           Lr = rod length (ft or m)
-##           E = hammer efficiency as a decimal (default: 0.60)
-##           Db = borehole diameter (in or mm)
-##           SS = logical variable: TRUE for standard sampler [default]; FALSE
-##                for sampler without liner
-##           metric = logical variable: TRUE (for metric units) or FALSE (for English units)
 
+#' SPT Correction N60 for Site Exploration
+#' 
+#' Provides the SPT correction: N60. 1 January 2016
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' 
+#' 
+#' @return SPT blow count (N-value) corrected for field procedures
+#' 
+#' @param N = raw SPT N-value
+#' @param Lr = rod length (ft or m)
+#' @param E = hammer efficiency as a decimal (default: 0.60)
+#' @param Db = borehole diameter (in or mm)
+#' @param SS = logical variable: TRUE for standard sampler [default]; FALSE
+#'     for sampler without liner
+#' @param metric = logical variable: TRUE (for metric units) or FALSE (for
+#'     English units)
+#' 
+#' @examples
+#' N60(N = 11, Lr = 25, Db = 4, E = 0.50, SS = TRUE, metric = FALSE)
+#' 
+#' @export
 N60 <- function(N, Lr, Db, SS = TRUE, E = 0.60, metric){
 
-  ##  Convert units
+  # Convert units
   if(metric == FALSE){
     Db <- Db * 25.4
     Lr <- Lr / 3.28084
   }
     
-  ##  Borehole diameter factor
+  # Borehole diameter factor
   if(Db <= 130){
     Cb <- 1
   } else{
@@ -137,7 +165,7 @@ N60 <- function(N, Lr, Db, SS = TRUE, E = 0.60, metric){
     }
   }
 
-  ##  Sampling method factor
+  # Sampling method factor
   if(SS == TRUE){
     Cs <- 1
   } else{
@@ -146,7 +174,7 @@ N60 <- function(N, Lr, Db, SS = TRUE, E = 0.60, metric){
     }
   }
 
-  ##  Rod length factor
+  # Rod length factor
   if(Lr < 4){
     Cr <- 0.75
   } else{
@@ -175,32 +203,51 @@ N60 <- function(N, Lr, Db, SS = TRUE, E = 0.60, metric){
     }
   }
   
-  ##  N60 Correction
+  # N60 Correction
   N60 <- N * Cb * Cs * Cr * (E / 0.60)
 
-  ##  Return N60 Value
+  # Return N60 Value
   return(N60)
 }
 
-##  Example code for this function:
-##  N60(N = 11, Lr = 25, Db = 4, E = 0.50, SS = TRUE, metric = FALSE)
 
 
 
 
 
-########################################################################################
-##  3. SPT CORRECTION: N1,60
-##
-##  Output:  SPT blow count (N-value) corrected for field procedures and overburden pressure
-##
-##  Input:   N60 = SPT N-value corrected for field procedures
-##           sigma = effective vertical stress at the depth of interest (psf or kPa)
-##           metric = logical variable: TRUE (for metric units) or FALSE (for English units)
 
+
+#' SPT Correction N160 for Site Exploration
+#' 
+#' Provides the SPT correction: N1,60. 1 January 2016
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#' 
+#' 
+#' 
+#' @encoding UTF-8
+#' @return SPT blow count (N-value) corrected for field procedures and
+#'     overburden pressure
+#' 
+#' @param N60 = SPT N-value corrected for field procedures
+#' @param sigma = effective vertical stress at the depth of interest (psf or kPa)
+#' @param metric = logical variable: TRUE (for metric units) or FALSE (for
+#'    English units)
+#'  
+#' @examples
+#' 
+#' # In English units
+#' N160(N60 = 8, sigma = 1500, metric = FALSE)
+#' 
+#' # In SI units
+#' N160(N60 = 8, sigma = 90, metric = TRUE) 
+#'  
+#'  
+#'  
+#' @export
 N160 <- function(N60, sigma, metric){
 
-  ##  Determine atmospheric pressure
+  # Determine atmospheric pressure
   if(metric == TRUE){
     pa <- 100
   } else{
@@ -209,19 +256,9 @@ N160 <- function(N60, sigma, metric){
     }
   }
       
-  ##  Determine N160 value
+  # Determine N160 value
   N160 <- N60 * sqrt(pa / sigma)
 
-  ## Return values
+  #  Return values
   return(N160)
 }
-
-##  Example code for this function:
-##
-##  In English units
-##  N160(N60 = 8, sigma = 1500, metric = FALSE)
-##
-##  In SI units
-##  N160(N60 = 8, sigma = 90, metric = TRUE) 
-
-

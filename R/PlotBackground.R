@@ -1,20 +1,27 @@
-##  PLOT BACKGROUND FUNCTIONS
-##  Kyle Elmy and Jim Kaklamanos
-##  1 December 2015
-
-##  NOTE:
-##  This file contains functions that are used to create the logarithmic
-##  and semilogarithmic plots that are used by other functions in the package.
-
-
-########################################################################################
-##  1. BACKGROUND FUNCTION logAxis.plot = plotting function (one axis at a time)
-##
-##  Arguments:  data = vector of data values for plot;
-##              type = "x" for horizontal axis; "y" for vertical axis
-##              vertical = TRUE for vertical gridlines across plot;
-##                         FALSE otherwise (default = FALSE)
-
+#' logAxis Plot Background Function
+#' 
+#' Plotting one axis at a time for the log-based plots. 1 December 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#' 
+#' 
+#' 
+#'
+#'
+#' @encoding UTF-8
+#'
+#' @note
+#' Contains functions that are used to create the logarithmic and
+#' semilogarithmic plots that are used by other functions in the package.
+#' 
+#' @param data = vector of data values for plot;
+#' @param type = "x" for horizontal axis; "y" for vertical axis
+#' @param gridlines = vertical TRUE for vertical gridlines across plot;
+#'    FALSE otherwise (default = FALSE)
+#' 
+#' 
+#' @keywords internal
+#' @export
 logAxis.plot <- function(data, type, gridlines){
   
   ##  Range of data
@@ -58,25 +65,39 @@ logAxis.plot <- function(data, type, gridlines){
 
 
 
-########################################################################################
-##  2. BACKGROUND FUNCTION logAxis = wrapper function for performing calculations
-##
-##  Arguments:  x = data for x-axis, y = data for y-axis
-##              gridX and gridY are TRUE if gridlines in the vertical or horizontal
-##                  directions are to be drawn; FALSE otherwise
-##              
-
+#' logAxis Background Wrapper Function for Performing Calculations
+#' 
+#' Performing background calculations for the log-based plots. 1 December 2015
+#' 
+#' @author Kyle Elmy and Jim Kaklamanos
+#' 
+#' 
+#' 
+#'
+#'
+#' @encoding UTF-8
+#'
+#' @param x = data for x-axis
+#' @param y = data for y-axis
+#' @param gridX = TRUE if gridlines in the horizontal directions are to be drawn;
+#'    FALSE otherwise
+#' @param gridY = TRUE if gridlines in the vertical directions are to be drawn;
+#'    FALSE otherwise
+#' @keywords internal
+#' @export
 logAxis <- function(x = NA, y = NA, gridX = FALSE, gridY = FALSE){
 
-  if(is.na(x) == FALSE && is.na(y) == TRUE){
+# Due to the "Error in is.na(x) == FALSE && is.na(y) == TRUE :" error message, Irucka Embry added all() for each is.na term in the following code (revised on 23 September 2026)
+
+  if(all(is.na(x) == FALSE) && all(is.na(y) == TRUE)){
     logAxis.plot(data = x, type = "x", gridlines = gridY)
     
   } else{
-    if(is.na(x) == TRUE && is.na(y) == FALSE){
+    if(all(is.na(x) == TRUE) && all(is.na(y) == FALSE)){
       logAxis.plot(data = y, type = "y", gridlines = gridX)
       
     } else{
-      if(is.na(x) == FALSE && is.na(y) == FALSE){
+      if(all(is.na(x) == FALSE) && all(is.na(y) == FALSE)){
         logAxis.plot(data = x, type = "x", gridlines = gridY)
         logAxis.plot(data = y, type = "y", gridlines = gridX)
       }
