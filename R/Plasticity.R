@@ -78,11 +78,13 @@ LL <- function(N, w, draw){
 #' @encoding UTF-8
 #' 
 #' 
-#' 
+#'
+#' @references
+#' George F. Sowers, \emph{Introductory Soil Mechanics and Foundations}, Macmillan, Fourth Edition, ISBN 0024138703, 1979.
 #' 
 #'
 #' @return A two-element list composed of: PI = Plasticity index (percent) and
-#'    descr = qualitative description of soil
+#'    descr = qualitative description of soil based on Sowers (1979)
 #'           
 #' @param LL = Liquid Limit (percent)
 #' @param PL = Plastic Limit (percent)

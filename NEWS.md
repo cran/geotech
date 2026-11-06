@@ -1,3 +1,11 @@
+# geotech 1.0.2 (4 November 2026)
+
+* Added a README to provide more information about the package, including additional information originally provided by the original package authors
+* Found all of the original references so all references have been included in the function documentation
+
+
+
+
 # geotech 1.0.1 (27 October 2026)
 
 * Irucka Embry is the new maintainer for the `geotech` package.

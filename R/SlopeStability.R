@@ -7,6 +7,10 @@
 #'  
 #' 
 #' 
+#' @references
+#' Coduto, D. P., M. R. Yeung, and W. A. Kitch, \emph{Geotechnical Engineering: Principles and Practices}, 2nd Edition, Prentice Hall, Upper Saddle River, N.J., 2011, 794 pp.
+#' 
+#' 
 #' 
 #' @encoding UTF-8
 #' 

@@ -1,7 +1,7 @@
 Package: geotech
 Title: Geotechnical Engineering
-Date: 2026-10-30
-Version: 1.0.1
+Date: 2026-11-04
+Version: 1.0.2
 Authors@R: c(person("James", "Kaklamanos", role = c("aut")),
     person("Kyle", "Elmy", role = c("aut")), person("Irucka",
     "Embry", role = c("cre"), email = "iembry@ecoccs.com"))
@@ -26,6 +26,6 @@ Author: James Kaklamanos [aut],
   Kyle Elmy [aut],
   Irucka Embry [cre]
 Maintainer: Irucka Embry <iembry@ecoccs.com>
-Packaged: 2026-10-30 03:20:21 UTC; xbyri
+Packaged: 2026-11-04 02:43:47 UTC; xbyri
 Repository: CRAN
-Date/Publication: 2026-10-30 10:20:02 UTC
+Date/Publication: 2026-11-06 14:30:09 UTC

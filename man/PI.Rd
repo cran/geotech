@@ -14,7 +14,7 @@ PI(LL, PL)
 }
 \value{
 A two-element list composed of: PI = Plasticity index (percent) and
-   descr = qualitative description of soil
+   descr = qualitative description of soil based on Sowers (1979)
 }
 \description{
 Calculates plasticity index from liquid limit and plastic limit. 1 December
@@ -23,6 +23,9 @@ Calculates plasticity index from liquid limit and plastic limit. 1 December
 \examples{
 PI(LL=80, PL=30)
 
+}
+\references{
+George F. Sowers, \emph{Introductory Soil Mechanics and Foundations}, Macmillan, Fourth Edition, ISBN 0024138703, 1979.
 }
 \author{
 Kyle Elmy and Jim Kaklamanos

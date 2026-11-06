@@ -45,6 +45,11 @@ K <- function(sigmax, sigmaz){
 #' 
 #' 
 #' 
+#' @references
+#' \enumerate{
+#'    \item J. Jaky, "The coefficient of earth pressure at rest In Hungarian (A nyugalmi nyomas tenyezoje)", \emph{J. Soc. Hung. Eng. Arch.} (\emph{Magyar Mernok es Epitesz-Egylet Kozlonye}), 1944, Pages 355-358.
+#'    \item Paul W. Mayne and Fred H. Kulhawy, "K0-OCR relationship in soil", \emph{J. Geotech. Eng. Div., Am. Soc. Civ. Eng.}, 108(6), 1982, Pages 851-872.
+#' }
 #' 
 #' 
 #' @return Coefficient of lateral earth pressure at rest
@@ -53,8 +58,8 @@ K <- function(sigmax, sigmaz){
 #' @param OCR = overconsolidation ratio (default = 1)
 #' 
 #' @note
-#' For normally consolidated soil, the Jaky equation is used; for
-#' overconsolidated soil, the Mayne and Kulhawy equation is used.
+#' For normally consolidated soil, the Jaky (1944) equation is used;
+#' for overconsolidated soil, the Mayne and Kulhawy (1982) equation is used
 #' @export
 Ko <- function(phi, OCR = 1){
 

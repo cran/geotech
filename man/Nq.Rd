@@ -25,6 +25,10 @@ Calculates the bearing capacity factor Nq. 1 October 2015
 \note{
 For local shear, the friction angle is reduced to a value equal to atan(2/3
 * tan(phi)).
+Terzaghi's Ngamma is approximated by Coduto (2001).
+}
+\references{
+Donald P. Coduto, \emph{Foundation Design: Principles and Practices}, 2nd Edition, Prentice Hall, Upper Saddle River, N.J., ISBN 9780135897065, 2001, 883 pp.
 }
 \author{
 Kyle Elmy and Jim Kaklamanos

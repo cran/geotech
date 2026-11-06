@@ -17,8 +17,7 @@ induced.area(z, q, B, L = NA, shape)
 \item{L}{= length of loaded area (rectangular foundations only)}
 
 \item{shape}{= shape of loaded area (a string containing "circle", "square"
-   , "strip", or "rectangle")
-#'}
+, "strip", or "rectangle")}
 }
 \value{
 Induced vertical stress at the center of the loaded area
@@ -27,11 +26,14 @@ Induced vertical stress at the center of the loaded area
 Computes the induced stress due to area load. 1 October 2015
 }
 \note{
-Uses the approximate method.
+This function uses the approximate method of Poulos and Davis (1974).
 }
 \examples{
 induced.area(z = 10, q = 1000, B = 3, shape = "square")
 
+}
+\references{
+Harry G. Poulos and E. H. Davis, \emph{Elastic Solutions for Soil and Rock Mechanics}, John Wiley & Sons, Inc., 1974. Reprinted in 1991 by University of Sydney Centre for Geotechnical Research
 }
 \author{
 Kyle Elmy and Jim Kaklamanos

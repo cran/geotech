@@ -410,7 +410,10 @@ induced.point.profile <- function(P, x, y, z = NA, nu){
 #' @author Kyle Elmy and Jim Kaklamanos
 #' 
 #' 
-#' 
+#'
+#' @references
+#' Harry G. Poulos and E. H. Davis, \emph{Elastic Solutions for Soil and Rock Mechanics}, John Wiley & Sons, Inc., 1974. Reprinted in 1991 by University of Sydney Centre for Geotechnical Research
+#'
 #' @encoding UTF-8
 #' @return Induced vertical stress at the center of the loaded area
 #'
@@ -420,12 +423,12 @@ induced.point.profile <- function(P, x, y, z = NA, nu){
 #' @param L = length of loaded area (rectangular foundations only)
 #' @param shape = shape of loaded area (a string containing "circle", "square"
 #'    , "strip", or "rectangle")
-#'#'
+#'
 #' @examples
 #' induced.area(z = 10, q = 1000, B = 3, shape = "square")
 #'
 #' @note
-#' Uses the approximate method.
+#' This function uses the approximate method of Poulos and Davis (1974).
 #' @export
 induced.area <- function(z, q, B, L = NA, shape){
 

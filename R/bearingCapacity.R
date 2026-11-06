@@ -82,7 +82,9 @@ bearingPressure <- function(P, B, L, D, Dw, metric, gammaW = NA, gammaC = NA){
 #' @encoding UTF-8
 #' 
 #' 
-#' 
+#'
+#' @references
+#' Donald P. Coduto, \emph{Foundation Design: Principles and Practices}, 2nd Edition, Prentice Hall, Upper Saddle River, N.J., ISBN 9780135897065, 2001, 883 pp.
 #' 
 #' @return Bearing capacity factor (Nq) using either the Terzaghi
 #'    or Vesic methods
@@ -95,7 +97,8 @@ bearingPressure <- function(P, B, L, D, Dw, metric, gammaW = NA, gammaC = NA){
 #' 
 #' @note
 #' For local shear, the friction angle is reduced to a value equal to atan(2/3
-#' * tan(phi)). 
+#' * tan(phi)).
+#' Terzaghi's Ngamma is approximated by Coduto (2001).
 #' 
 #' 
 #' 
